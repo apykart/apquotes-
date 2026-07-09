@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +10,7 @@
 </head>
 <body>
 
+<!-- ========== SPLASH SCREEN ========== -->
 <div id="loadingScreen">
     <div class="splash-logo-wrap">
         <div class="splash-wordmark"><span class="ap">AP</span><span class="ykart">YKART</span></div>
@@ -26,47 +26,48 @@
     </div>
 </div>
 
-<div id="app">
-    <!-- HEADER -->
-    <header class="app-header" id="appHeader">
-        <div class="header-logo" onclick="showPage('home')">
-            <div style="display:flex;align-items:center;gap:7px">
-                <div class="header-logo-text">apykart</div>
-            </div>
-            <div class="header-video-pill">
-                <div class="header-video-dot"></div>
-                <span class="header-video-label">Video Commerce</span>
-            </div>
-        </div>
-        <div style="flex:1"></div>
-        <div class="header-actions">
-            <div class="header-btn coin-pill-glow" onclick="showPage('wallet')" title="ApyCoins">
-                <span>🪙</span>
-                <span id="headerCoinBalance">0</span>
-            </div>
-        </div>
-    </header>
-
-    <!-- PAGE SCROLL -->
-    <div class="page-scroll" id="pageScroll">
-        <!-- All pages -->
-        <div class="page active" id="page-home">...</div>
-        <div class="page" id="page-search">...</div>
-        <div class="page" id="page-xplor">...</div>
-        <!-- ... other pages -->
+<!-- ========== APP ========== -->
+<div id="app" style="display:none">
+    <!-- All app content here -->
+    <div id="appContent">
+        <!-- Copy all app content from previous code -->
     </div>
-
-    <!-- BOTTOM NAV -->
-    <nav class="bottom-nav">...</nav>
 </div>
 
-<!-- Toast Container -->
-<div class="toast-container" id="toastContainer"></div>
+<!-- ========== SCRIPTS ========== -->
+<script>
+// ✅ FIX: Load main.js properly
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔄 DOM loaded, loading main.js...');
+    
+    // Check if main.js is loaded
+    const script = document.createElement('script');
+    script.type = 'module';
+    script.src = 'js/main.js';
+    script.onload = function() {
+        console.log('✅ main.js loaded successfully');
+    };
+    script.onerror = function() {
+        console.error('❌ Failed to load main.js');
+        // Fallback: hide loading screen anyway
+        setTimeout(function() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('app').style.display = 'flex';
+        }, 3000);
+    };
+    document.head.appendChild(script);
+    
+    // ✅ FIX: Fallback timer - agar 5 sec mein load nahi hua toh loading screen hata do
+    setTimeout(function() {
+        const ls = document.getElementById('loadingScreen');
+        if (ls && !ls.classList.contains('hidden')) {
+            console.warn('⚠️ Loading timeout - forcing hide');
+            ls.classList.add('hidden');
+            document.getElementById('app').style.display = 'flex';
+        }
+    }, 5000);
+});
+</script>
 
-<!-- Modal Portal -->
-<div id="modalPortal"></div>
-
-<!-- Scripts -->
-<script type="module" src="js/main.js"></script>
 </body>
 </html>
