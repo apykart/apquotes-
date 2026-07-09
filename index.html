@@ -1,1 +1,72 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>apykart – Earn Via Shop & Create</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="loadingScreen">
+    <div class="splash-logo-wrap">
+        <div class="splash-wordmark"><span class="ap">AP</span><span class="ykart">YKART</span></div>
+        <div class="splash-tag">Earn While You Shop</div>
+    </div>
+    <div class="splash-loader">
+        <div class="splash-loading-text">Loading…</div>
+        <div class="splash-dots">
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+            <div class="splash-dot"></div>
+        </div>
+    </div>
+</div>
+
+<div id="app">
+    <!-- HEADER -->
+    <header class="app-header" id="appHeader">
+        <div class="header-logo" onclick="showPage('home')">
+            <div style="display:flex;align-items:center;gap:7px">
+                <div class="header-logo-text">apykart</div>
+            </div>
+            <div class="header-video-pill">
+                <div class="header-video-dot"></div>
+                <span class="header-video-label">Video Commerce</span>
+            </div>
+        </div>
+        <div style="flex:1"></div>
+        <div class="header-actions">
+            <div class="header-btn coin-pill-glow" onclick="showPage('wallet')" title="ApyCoins">
+                <span>🪙</span>
+                <span id="headerCoinBalance">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE SCROLL -->
+    <div class="page-scroll" id="pageScroll">
+        <!-- All pages -->
+        <div class="page active" id="page-home">...</div>
+        <div class="page" id="page-search">...</div>
+        <div class="page" id="page-xplor">...</div>
+        <!-- ... other pages -->
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav">...</nav>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Modal Portal -->
+<div id="modalPortal"></div>
+
+<!-- Scripts -->
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
