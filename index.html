@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>apykart – Earn Via Shop & Create</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Linked stylesheet (Part 2) -->
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>apykart – Earn Via Shop & Create</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <!-- ===== style.css (connected) ===== -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* minimal fallback + overrides (style.css is primary) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #0b0e14; color: #f1f5f9; }
+    .page { display: none; }
+    .page.active { display: block; }
+    #app { max-width: 480px; margin: 0 auto; background: #0f1219; min-height: 100vh; position: relative; padding-bottom: 80px; }
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto; background: #141a24; backdrop-filter: blur(12px); display: flex; border-top: 1px solid #2a3344; z-index: 50; }
+    /* rest is in style.css */
+  </style>
 </head>
 <body>
 
+<!-- LOADING SCREEN -->
 <div id="loadingScreen">
   <div class="splash-logo-wrap">
     <div class="splash-wordmark"><span class="ap">AP</span><span class="ykart">YKART</span></div>
@@ -24,6 +36,7 @@
   </div>
 </div>
 
+<!-- MAIN APP -->
 <div id="app">
   <header class="app-header" id="appHeader">
     <div class="header-logo" onclick="showPage('home')" style="flex:none">
@@ -46,7 +59,7 @@
 
   <div class="page-scroll" id="pageScroll">
 
-    <!-- ============ HOME ============ -->
+    <!-- HOME -->
     <div class="page active" id="page-home">
       <div class="home-search-bar">
         <div class="home-search-input" onclick="showPage('search')" style="justify-content:flex-start">
@@ -126,7 +139,7 @@
       </div>
     </div>
 
-    <!-- ============ SEARCH ============ -->
+    <!-- SEARCH -->
     <div class="page" id="page-search">
       <div class="search-header">
         <div class="search-input-wrap">
@@ -138,17 +151,14 @@
       <div id="searchContent"></div>
     </div>
 
-    <!-- ============ XPLOR (video feed) ============ -->
+    <!-- XPLOR -->
     <div class="page" id="page-xplor">
       <div id="xplorContent" style="height:100%;position:relative"></div>
     </div>
 
-    <!-- ============ MY VIDEOS (creator dashboard) ============ -->
-    <div class="page" id="page-my-videos">
-      <div id="myVideosContent"></div>
-    </div>
-
-    <!-- ============ UPLOAD VIDEO ============ -->
+    <!-- MY VIDEOS -->
+    <div class="page" id="page-my-videos"><div id="myVideosContent"></div></div>
+    <!-- UPLOAD VIDEO -->
     <div class="page" id="page-upload-video">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -157,19 +167,19 @@
       <div id="uploadVideoContent"></div>
     </div>
 
-    <!-- ============ PRODUCT DETAIL ============ -->
+    <!-- PRODUCT DETAIL -->
     <div class="page" id="page-detail">
       <div id="detailContent"></div>
       <div class="detail-cta-bar" id="detailCta"></div>
     </div>
 
-    <!-- ============ CART ============ -->
+    <!-- CART -->
     <div class="page" id="page-cart">
       <div id="cartContent"></div>
       <div id="cartCta"></div>
     </div>
 
-    <!-- ============ CHECKOUT ============ -->
+    <!-- CHECKOUT -->
     <div class="page" id="page-checkout">
       <div class="checkout-page" id="checkoutContent"></div>
       <div class="checkout-place-bar">
@@ -180,17 +190,15 @@
       </div>
     </div>
 
-    <!-- ============ SUCCESS ============ -->
-    <div class="page" id="page-success">
-      <div id="successContent"></div>
-    </div>
+    <!-- SUCCESS -->
+    <div class="page" id="page-success"><div id="successContent"></div></div>
 
-    <!-- ============ PROFILE ============ -->
+    <!-- PROFILE -->
     <div class="page" id="page-profile">
       <div class="profile-page" id="profileContent"></div>
     </div>
 
-    <!-- ============ ORDERS ============ -->
+    <!-- ORDERS -->
     <div class="page" id="page-orders">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -199,7 +207,7 @@
       <div id="ordersContent"></div>
     </div>
 
-    <!-- ============ WISHLIST ============ -->
+    <!-- WISHLIST -->
     <div class="page" id="page-wishlist">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -208,7 +216,7 @@
       <div id="wishlistContent"></div>
     </div>
 
-    <!-- ============ WALLET ============ -->
+    <!-- WALLET -->
     <div class="page" id="page-wallet">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -217,7 +225,7 @@
       <div id="walletContent"></div>
     </div>
 
-    <!-- ============ ADDRESSES ============ -->
+    <!-- ADDRESSES -->
     <div class="page" id="page-addresses">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -227,7 +235,7 @@
       <div id="addressesContent"></div>
     </div>
 
-    <!-- ============ REFER & EARN ============ -->
+    <!-- REFER -->
     <div class="page" id="page-refer">
       <div class="sub-page-header">
         <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
@@ -236,45 +244,14 @@
       <div id="referContent"></div>
     </div>
 
-    <!-- ============ HELP ============ -->
-    <div class="page" id="page-help">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">Help & Support</div>
-      </div>
-      <div id="helpContent"></div>
-    </div>
+    <!-- HELP, RATE, TERMS, ABOUT -->
+    <div class="page" id="page-help"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Help & Support</div></div><div id="helpContent"></div></div>
+    <div class="page" id="page-rate"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Rate the App</div></div><div id="rateContent"></div></div>
+    <div class="page" id="page-terms"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Terms & Conditions</div></div><div id="termsContent"></div></div>
+    <div class="page" id="page-about"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">About Apykart</div></div><div id="aboutContent"></div></div>
+  </div>
 
-    <!-- ============ RATE ============ -->
-    <div class="page" id="page-rate">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">Rate the App</div>
-      </div>
-      <div id="rateContent"></div>
-    </div>
-
-    <!-- ============ TERMS ============ -->
-    <div class="page" id="page-terms">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">Terms & Conditions</div>
-      </div>
-      <div id="termsContent"></div>
-    </div>
-
-    <!-- ============ ABOUT ============ -->
-    <div class="page" id="page-about">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">About Apykart</div>
-      </div>
-      <div id="aboutContent"></div>
-    </div>
-
-  </div><!-- END page-scroll -->
-
-  <!-- ============ SELLER DASHBOARD (own layout, outside page-scroll) ============ -->
+  <!-- SELLER DASHBOARD -->
   <div class="page" id="page-seller-dashboard">
     <div class="seller-dashboard-container">
       <div class="seller-header-bar">
@@ -288,41 +265,17 @@
       </div>
       <div class="seller-content" id="sellerTabContent"></div>
       <nav class="seller-bottom-tabs">
-        <div class="seller-tab-item active" data-tab="overview">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">📊</div>
-          <div class="seller-tab-label">Overview</div>
-        </div>
-        <div class="seller-tab-item" data-tab="products">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">📦</div>
-          <div class="seller-tab-label">Products</div>
-        </div>
-        <div class="seller-tab-item" data-tab="add-product">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">➕</div>
-          <div class="seller-tab-label">Add</div>
-        </div>
-        <div class="seller-tab-item" data-tab="earnings">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">💰</div>
-          <div class="seller-tab-label">Earnings</div>
-        </div>
-        <div class="seller-tab-item" data-tab="withdraw">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">🏦</div>
-          <div class="seller-tab-label">Withdraw</div>
-        </div>
-        <div class="seller-tab-item" data-tab="profile">
-          <div class="seller-tab-active-bar"></div>
-          <div class="seller-tab-icon">⚙️</div>
-          <div class="seller-tab-label">Settings</div>
-        </div>
+        <div class="seller-tab-item active" data-tab="overview"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">📊</div><div class="seller-tab-label">Overview</div></div>
+        <div class="seller-tab-item" data-tab="products"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">📦</div><div class="seller-tab-label">Products</div></div>
+        <div class="seller-tab-item" data-tab="add-product"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">➕</div><div class="seller-tab-label">Add</div></div>
+        <div class="seller-tab-item" data-tab="earnings"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">💰</div><div class="seller-tab-label">Earnings</div></div>
+        <div class="seller-tab-item" data-tab="withdraw"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">🏦</div><div class="seller-tab-label">Withdraw</div></div>
+        <div class="seller-tab-item" data-tab="profile"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">⚙️</div><div class="seller-tab-label">Settings</div></div>
       </nav>
     </div>
   </div>
 
-  <!-- ============ BOTTOM NAV ============ -->
+  <!-- BOTTOM NAV -->
   <nav class="bottom-nav">
     <div class="nav-item active" id="nav-home" onclick="showPage('home')">
       <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
@@ -350,20 +303,15 @@
   </nav>
 </div>
 
+<!-- TOAST & MODALS -->
 <div class="toast-container" id="toastContainer"></div>
 <div id="modalPortal"></div>
 <div id="welcomePopupPortal"></div>
-
-<!-- Image preview modal -->
 <div id="imgPreviewModal" onclick="closeImgPreview()">
-  <button class="img-preview-close" onclick="closeImgPreview()">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-  </button>
+  <button class="img-preview-close" onclick="closeImgPreview()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   <img class="img-preview-img" id="imgPreviewSrc" src="" alt="Preview" onclick="event.stopPropagation()">
   <div class="img-preview-caption" id="imgPreviewCaption"></div>
 </div>
-
-<!-- Coming soon overlay -->
 <div class="coming-soon-overlay" id="comingSoonOverlay" style="display:none" onclick="hideComingSoon()">
   <div class="coming-soon-sheet" onclick="event.stopPropagation()">
     <div style="font-size:56px;margin-bottom:12px">🚀</div>
@@ -373,21 +321,12 @@
   </div>
 </div>
 
-<!-- ============ SCRIPTS ============ -->
-<!-- Firebase SDK modules (must load before script.js) -->
+<!-- FIREBASE MODULES + APP SCRIPTS -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import {
-    getFirestore, doc, setDoc, updateDoc, addDoc, getDoc, getDocs,
-    collection, onSnapshot, deleteDoc, query, where, orderBy,
-    serverTimestamp, limit, increment
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  import {
-    getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL, deleteObject
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, setDoc, updateDoc, addDoc, getDoc, getDocs, collection, onSnapshot, deleteDoc, query, where, orderBy, serverTimestamp, limit, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyB9wwF-K1AwN8xlrppiKELDXx0NxqJknbc",
@@ -397,36 +336,25 @@
     messagingSenderId: "787741109597",
     appId: "1:787741109597:web:883a5eee5e9bb9602f8cb4"
   };
-
-  const app      = initializeApp(firebaseConfig);
-  const auth     = getAuth(app);
-  const db       = getFirestore(app);
-  const storage  = getStorage(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const storage = getStorage(app);
   const provider = new GoogleAuthProvider();
 
-  // Expose to window so classic script.js (non-module) can use them
   window._fbAuth = { auth, provider, signInWithPopup, signOut, onAuthStateChanged };
   window._db = db;
   window._storage = storage;
-  window._storageRef = storageRef;
+  window._storageRef = ref;
   window._getDownloadURL = getDownloadURL;
   window._uploadBytesResumable = uploadBytesResumable;
   window._deleteObject = deleteObject;
-  window._fsHelpers = {
-    db, doc, setDoc, updateDoc, addDoc, getDoc, getDocs,
-    collection, onSnapshot, deleteDoc, query, where, orderBy,
-    serverTimestamp, limit, increment
-  };
-
+  window._fsHelpers = { db, doc, setDoc, updateDoc, addDoc, getDoc, getDocs, collection, onSnapshot, deleteDoc, query, where, orderBy, serverTimestamp, limit, increment };
   window._fbReady = true;
   window.dispatchEvent(new Event('firebase-ready'));
 </script>
-
-<!-- Firebase listeners & Firestore-dependent init (Part 3a) -->
+<!-- firebase-listeners.js and script.js are loaded as external (if present) -->
 <script src="firebase-listeners.js" type="module"></script>
-
-<!-- Main app logic (Part 3b) -->
 <script src="script.js"></script>
-
 </body>
 </html>
