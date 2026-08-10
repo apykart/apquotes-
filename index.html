@@ -1,360 +1,1559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>apykart – Earn Via Shop & Create</title>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <!-- ===== style.css (connected) ===== -->
-  <link rel="stylesheet" href="style.css">
-  <style>
-    /* minimal fallback + overrides (style.css is primary) */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Inter', sans-serif; background: #0b0e14; color: #f1f5f9; }
-    .page { display: none; }
-    .page.active { display: block; }
-    #app { max-width: 480px; margin: 0 auto; background: #0f1219; min-height: 100vh; position: relative; padding-bottom: 80px; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 480px; margin: 0 auto; background: #141a24; backdrop-filter: blur(12px); display: flex; border-top: 1px solid #2a3344; z-index: 50; }
-    /* rest is in style.css */
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>RP Restaurant Phaphamau, Prayagraj | Vegetarian North Indian & Chinese Restaurant</title>
+<meta name="description" content="Visit RP Restaurant in Phaphamau, Prayagraj for vegetarian North Indian and Chinese cuisine, comfortable dining, family meals and warm hospitality. Explore the menu, reviews, location and opening hours.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#171310">
+<link rel="canonical" href="https://www.rprestaurant.example/">
+
+<!-- Open Graph -->
+<meta property="og:title" content="RP Restaurant — Phaphamau, Prayagraj">
+<meta property="og:description" content="A welcoming vegetarian dining destination in Phaphamau, Prayagraj, serving North Indian and Chinese favourites.">
+<meta property="og:type" content="restaurant">
+<meta property="og:image" content="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80">
+<meta property="og:url" content="https://www.rprestaurant.example/">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RP Restaurant — Phaphamau, Prayagraj">
+<meta name="twitter:description" content="Vegetarian North Indian & Chinese dining in Phaphamau, Prayagraj.">
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23171310'/%3E%3Ctext x='50' y='64' font-size='46' text-anchor='middle' fill='%23c49a5a' font-family='Georgia,serif'%3ERP%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "RP Restaurant",
+  "telephone": "+91 93076 77778",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Phaphamau Bypass, Lucknow–Prayagraj Highway, opposite Sabzi Mandi",
+    "addressLocality": "Phaphamau, Prayagraj",
+    "addressRegion": "Uttar Pradesh",
+    "postalCode": "211013",
+    "addressCountry": "IN"
+  },
+  "servesCuisine": ["Vegetarian", "North Indian", "Chinese"],
+  "priceRange": "₹200–₹400",
+  "url": "https://www.rprestaurant.example/",
+  "openingHours": "Mo-Su 11:00-23:00"
+}
+</script>
+
+<style>
+/* ============================= RESET ============================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+ul { list-style: none; }
+
+/* ============================= TOKENS ============================= */
+:root{
+  --bg-dark: #171310;
+  --bg-dark-soft: #211b17;
+  --bg-dark-softer: #2a231d;
+  --cream: #f7f0e5;
+  --cream-soft: #eee3d2;
+  --gold: #c49a5a;
+  --gold-light: #d9b77a;
+  --green: #536b45;
+  --text-dark: #1b1714;
+  --text-light: #f8f3ea;
+  --muted: #9e9488;
+  --muted-dark: #6f6a63;
+  --border: rgba(255,255,255,.12);
+  --border-dark: rgba(27,23,20,.12);
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --container: 1240px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 128px;
+
+  --shadow-sm: 0 2px 12px rgba(0,0,0,.15);
+  --shadow-md: 0 8px 30px rgba(0,0,0,.25);
+  --shadow-lg: 0 20px 60px rgba(0,0,0,.35);
+
+  --ease: cubic-bezier(.16,.8,.24,1);
+  --nav-h: 84px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+html, body{ background: var(--cream); color: var(--text-dark); }
+body{ font-family: var(--font-body); font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+body.no-scroll{ overflow: hidden; }
+
+h1,h2,h3,h4{ font-family: var(--font-display); font-weight: 600; line-height: 1.15; letter-spacing: -0.01em; }
+
+.eyebrow{
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 12.5px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--gold);
+}
+.eyebrow::before{ content:""; width: 22px; height: 1px; background: var(--gold); display: inline-block; }
+
+.container{ max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px){ .container{ padding: 0 20px; } }
+
+section{ position: relative; }
+.section-pad{ padding: var(--space-7) 0; }
+@media (max-width: 768px){ .section-pad{ padding: var(--space-6) 0; } }
+
+.section-head{ max-width: 640px; margin-bottom: var(--space-5); }
+.section-head h2{ font-size: clamp(30px, 4vw, 44px); margin-top: 14px; }
+.section-head p{ margin-top: 14px; color: var(--muted-dark); font-size: 17px; }
+.section-head.center{ margin-left: auto; margin-right: auto; text-align: center; }
+.section-head.on-dark p{ color: var(--muted); }
+
+/* focus visibility */
+a:focus-visible, button:focus-visible, input:focus-visible{
+  outline: 2px solid var(--gold-light); outline-offset: 3px; border-radius: 4px;
+}
+
+/* ============================= REVEAL ============================= */
+.reveal{ opacity: 0; will-change: transform, opacity; transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal.fade-up{ transform: translateY(28px); }
+.reveal.fade-left{ transform: translateX(-32px); }
+.reveal.fade-right{ transform: translateX(32px); }
+.reveal.scale{ transform: scale(.94); }
+.reveal.visible{ opacity: 1; transform: none; }
+
+/* ============================= BUTTONS ============================= */
+.btn{
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 48px; padding: 0 28px; border-radius: 999px;
+  font-weight: 600; font-size: 14.5px; letter-spacing: 0.01em;
+  border: 1px solid transparent; white-space: nowrap;
+  transition: transform .35s var(--ease), background .3s var(--ease), border-color .3s var(--ease), color .3s var(--ease);
+}
+.btn svg{ width: 16px; height: 16px; transition: transform .35s var(--ease); }
+.btn:hover svg{ transform: translate(3px,-2px); }
+.btn:active{ transform: scale(.97); }
+
+.btn-primary{ background: var(--gold); color: #1b1512; }
+.btn-primary:hover{ background: var(--gold-light); }
+
+.btn-secondary{ background: transparent; color: var(--text-light); border-color: rgba(255,255,255,.35); }
+.btn-secondary:hover{ border-color: var(--gold-light); color: var(--gold-light); }
+
+.btn-secondary.on-light{ color: var(--text-dark); border-color: rgba(27,23,20,.25); }
+.btn-secondary.on-light:hover{ border-color: var(--gold); color: #7a5d29; }
+
+.btn-text{
+  display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14.5px;
+  color: var(--gold); border-bottom: 1px solid transparent; padding-bottom: 2px;
+}
+.btn-text svg{ width: 15px; height: 15px; transition: transform .3s var(--ease); }
+.btn-text:hover svg{ transform: translateX(4px); }
+
+/* ============================= LOADER ============================= */
+#loader{
+  position: fixed; inset: 0; z-index: 999; background: var(--bg-dark);
+  display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 14px;
+  transition: opacity .6s var(--ease), visibility .6s var(--ease);
+}
+#loader.hidden{ opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-mark{ font-family: var(--font-display); color: var(--cream); text-align: center; letter-spacing: .05em; }
+.loader-mark .l1{ font-size: 34px; display:block; }
+.loader-mark .l2{ font-size: 13px; letter-spacing: .4em; color: var(--gold); margin-top: 4px; }
+.loader-bar{ width: 140px; height: 2px; background: rgba(255,255,255,.15); overflow: hidden; border-radius: 2px; }
+.loader-bar::after{
+  content:""; display: block; width: 40%; height: 100%; background: var(--gold);
+  animation: loaderMove 1.1s ease-in-out infinite;
+}
+@keyframes loaderMove{ 0%{ transform: translateX(-100%);} 50%{ transform: translateX(150%);} 100%{ transform: translateX(320%);} }
+
+/* ============================= NAVBAR ============================= */
+#navbar{
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  height: var(--nav-h); display: flex; align-items: center;
+  background: transparent; border-bottom: 1px solid transparent;
+  transition: background .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease), height .3s var(--ease);
+}
+#navbar.scrolled{
+  background: rgba(23,19,16,.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border); box-shadow: var(--shadow-sm); height: 72px;
+}
+.nav-inner{ display: flex; align-items: center; justify-content: space-between; width: 100%; }
+.nav-logo{ display: flex; flex-direction: column; line-height: 1; color: var(--text-light); }
+.nav-logo .l1{ font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: .03em; }
+.nav-logo .l2{ font-size: 10px; letter-spacing: .38em; color: var(--gold-light); margin-top: 4px; }
+
+.nav-links{ display: flex; align-items: center; gap: 38px; }
+.nav-links a{
+  font-size: 14px; font-weight: 500; color: var(--text-light); opacity: .85;
+  position: relative; padding: 6px 0;
+}
+.nav-links a::after{
+  content:""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--gold-light);
+  transition: width .3s var(--ease);
+}
+.nav-links a:hover, .nav-links a.active{ opacity: 1; }
+.nav-links a:hover::after, .nav-links a.active::after{ width: 100%; }
+
+.nav-right{ display: flex; align-items: center; gap: 18px; }
+.nav-cta{ display: inline-flex; }
+.hamburger{
+  display: none; flex-direction: column; gap: 5px; width: 26px; background: transparent; border: none; padding: 6px;
+}
+.hamburger span{ display:block; width: 100%; height: 2px; background: var(--text-light); border-radius: 2px; transition: transform .35s var(--ease), opacity .35s var(--ease); }
+.hamburger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+.hamburger.open span:nth-child(2){ opacity: 0; }
+.hamburger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 980px){
+  .nav-links{ display: none; }
+  .nav-cta.desktop-only{ display: none; }
+  .hamburger{ display: flex; }
+}
+
+/* Mobile menu */
+#mobile-menu{
+  position: fixed; inset: 0; z-index: 490; background: var(--bg-dark);
+  display: flex; flex-direction: column; justify-content: center; padding: 100px 32px 40px;
+  transform: translateY(-100%); transition: transform .5s var(--ease);
+}
+#mobile-menu.open{ transform: translateY(0); }
+#mobile-menu ul{ display: flex; flex-direction: column; gap: 8px; }
+#mobile-menu a{
+  font-family: var(--font-display); font-size: 30px; color: var(--text-light);
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+#mobile-menu .mobile-cta{ margin-top: 32px; display: flex; flex-direction: column; gap: 14px; }
+
+/* ============================= HERO ============================= */
+#hero{
+  min-height: 90vh; position: relative; display: flex; align-items: flex-end;
+  color: var(--text-light); overflow: hidden; background: var(--bg-dark);
+}
+.hero-media{ position: absolute; inset: 0; overflow: hidden; }
+.hero-media img{
+  width: 100%; height: 100%; object-fit: cover;
+  animation: kenburns 22s ease-in-out infinite alternate;
+  transform-origin: center;
+}
+@keyframes kenburns{ 0%{ transform: scale(1) translate(0,0);} 100%{ transform: scale(1.12) translate(-1%,-1%);} }
+.hero-media::after{
+  content:""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(17,14,11,.35) 0%, rgba(17,14,11,.55) 55%, rgba(17,14,11,.95) 100%);
+}
+.hero-inner{ position: relative; z-index: 2; padding: 160px 0 64px; width: 100%; }
+.hero-eyebrow{ color: var(--gold-light); font-size: 12.5px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; }
+.hero h1{ font-size: clamp(38px, 6vw, 74px); margin-top: 18px; max-width: 780px; color: var(--cream); }
+.hero-sub{ margin-top: 22px; max-width: 520px; font-size: 17.5px; color: var(--muted); }
+.hero-ctas{ display: flex; gap: 16px; margin-top: 36px; flex-wrap: wrap; }
+.hero-trust{
+  display: flex; gap: 36px; margin-top: 64px; flex-wrap: wrap; padding-top: 28px; border-top: 1px solid var(--border);
+}
+.hero-trust .item{ font-size: 13.5px; color: var(--muted); }
+.hero-trust .item strong{ display: block; font-family: var(--font-display); font-size: 20px; color: var(--cream); font-weight: 600; }
+
+.scroll-indicator{
+  position: absolute; right: 28px; bottom: 28px; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 10px;
+  color: var(--muted); font-size: 10.5px; letter-spacing: .3em;
+}
+.scroll-indicator span{ writing-mode: vertical-rl; }
+.scroll-indicator .dot{
+  width: 1px; height: 46px; background: linear-gradient(var(--gold-light), transparent);
+  position: relative; overflow: hidden;
+}
+.scroll-indicator .dot::after{
+  content:""; position: absolute; top: -46px; left: 0; width: 100%; height: 46px; background: var(--gold-light);
+  animation: scrollDown 2.2s ease-in-out infinite;
+}
+@keyframes scrollDown{ 0%{ top: -46px;} 100%{ top: 46px;} }
+
+@media (max-width: 640px){
+  #hero{ min-height: 86vh; align-items: flex-end; }
+  .hero-inner{ padding: 140px 0 48px; }
+  .hero-trust{ gap: 22px; }
+  .scroll-indicator{ display: none; }
+}
+
+/* ============================= TRUST STRIP ============================= */
+#trust-strip{ background: var(--bg-dark-soft); color: var(--text-light); padding: 40px 0; }
+.trust-grid{ display: grid; grid-template-columns: repeat(4, 1fr); }
+.trust-item{ padding: 0 28px; position: relative; }
+.trust-item + .trust-item{ border-left: 1px solid var(--border); }
+.trust-num{ font-family: var(--font-display); color: var(--gold); font-size: 13px; }
+.trust-item h4{ margin-top: 10px; font-size: 15.5px; letter-spacing: .02em; text-transform: uppercase; color: var(--cream); }
+.trust-item p{ margin-top: 4px; font-size: 13.5px; color: var(--muted); }
+
+@media (max-width: 768px){
+  .trust-grid{ grid-template-columns: repeat(2, 1fr); gap: 28px 0; }
+  .trust-item{ padding: 0 16px; }
+  .trust-item:nth-child(odd){ border-left: none; }
+  .trust-item:nth-child(3), .trust-item:nth-child(4){ border-top: 1px solid var(--border); padding-top: 24px; }
+}
+
+/* ============================= ABOUT ============================= */
+#about{ background: var(--cream); }
+.about-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center; }
+.about-media{ position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 4/5; box-shadow: var(--shadow-md); }
+.about-media img{ width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.about-media:hover img{ transform: scale(1.04); }
+.about-badge{
+  position: absolute; bottom: -1px; right: -1px; background: var(--gold); color: #1b1512;
+  width: 96px; height: 96px; border-radius: var(--radius-lg) 0 0 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: .04em;
+}
+.about-content .since{ display: inline-block; margin-top: 18px; font-size: 13.5px; color: var(--muted-dark); font-style: italic; }
+.about-content p{ margin-top: 18px; color: var(--muted-dark); font-size: 16.5px; }
+.about-content .btn-text{ margin-top: 28px; }
+
+@media (max-width: 860px){
+  .about-grid{ grid-template-columns: 1fr; gap: 40px; }
+  .about-media{ aspect-ratio: 16/11; }
+}
+
+/* ============================= WHY RP ============================= */
+#why{ background: var(--bg-dark); color: var(--text-light); }
+.feature-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.feature-card{
+  background: var(--bg-dark-soft); padding: 40px 32px; transition: background .4s var(--ease);
+  position: relative;
+}
+.feature-card:hover{ background: var(--bg-dark-softer); }
+.feature-num{ font-family: var(--font-display); font-size: 14px; color: var(--gold); transition: transform .4s var(--ease); }
+.feature-card:hover .feature-num{ transform: translateX(6px); }
+.feature-icon{ width: 34px; height: 34px; margin-top: 22px; color: var(--gold-light); }
+.feature-icon svg{ width: 100%; height: 100%; }
+.feature-card h4{ margin-top: 20px; font-size: 18px; letter-spacing: .01em; color: var(--cream); }
+.feature-card p{ margin-top: 10px; font-size: 14.5px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 860px){ .feature-grid{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px){ .feature-grid{ grid-template-columns: 1fr; } }
+
+/* ============================= SIGNATURE DISHES ============================= */
+#dishes{ background: var(--cream-soft); }
+.dish-scroller{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.dish-card{
+  background: var(--cream); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.dish-card:hover{ transform: translateY(-6px); box-shadow: var(--shadow-md); }
+.dish-media{ aspect-ratio: 5/4; overflow: hidden; position: relative; }
+.dish-media img{ width: 100%; height: 100%; object-fit: cover; transition: transform .7s var(--ease); }
+.dish-card:hover .dish-media img{ transform: scale(1.08); }
+.dish-veg{
+  position: absolute; top: 14px; left: 14px; width: 20px; height: 20px; background: var(--cream);
+  border: 2px solid var(--green); border-radius: 3px; display: flex; align-items: center; justify-content: center;
+}
+.dish-veg::after{ content:""; width: 9px; height: 9px; border-radius: 50%; background: var(--green); }
+.dish-body{ padding: 22px 24px 26px; }
+.dish-cat{ font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+.dish-body h4{ margin-top: 8px; font-size: 20px; }
+.dish-body p{ margin-top: 8px; font-size: 14.5px; color: var(--muted-dark); }
+.dish-foot{ margin-top: 16px; display: flex; align-items: center; justify-content: space-between; }
+.dish-price{ font-family: var(--font-display); font-size: 15px; color: var(--text-dark); }
+.dish-price.na{ font-size: 12.5px; color: var(--muted-dark); font-style: italic; font-family: var(--font-body); }
+.dish-arrow{ width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center; transition: background .3s var(--ease), transform .3s var(--ease); }
+.dish-arrow svg{ width: 14px; height: 14px; }
+.dish-card:hover .dish-arrow{ background: var(--gold); border-color: var(--gold); transform: rotate(45deg); }
+
+@media (max-width: 900px){ .dish-scroller{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px){ .dish-scroller{ grid-template-columns: 1fr; } }
+
+/* ============================= MENU ============================= */
+#menu{ background: var(--cream); }
+.menu-search{
+  position: relative; max-width: 360px; margin-bottom: 32px;
+}
+.menu-search input{
+  width: 100%; height: 50px; border-radius: 999px; border: 1px solid var(--border-dark);
+  background: var(--cream-soft); padding: 0 46px 0 20px; font-size: 14.5px; color: var(--text-dark);
+  transition: border-color .3s var(--ease), background .3s var(--ease);
+}
+.menu-search input::placeholder{ color: var(--muted-dark); }
+.menu-search input:focus{ border-color: var(--gold); background: var(--cream); outline: none; }
+.menu-search svg{ position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 17px; height: 17px; color: var(--muted-dark); pointer-events: none; }
+.menu-search .clear-btn{
+  position: absolute; right: 44px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--muted-dark);
+  font-size: 18px; line-height: 1; display: none; padding: 4px;
+}
+.menu-search.has-text .clear-btn{ display: block; }
+.menu-search.has-text svg{ display: none; }
+
+.menu-tabs{
+  display: flex; gap: 10px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 36px;
+  scrollbar-width: none; position: sticky; top: 72px; background: var(--cream); z-index: 10; padding-top: 6px;
+}
+.menu-tabs::-webkit-scrollbar{ display: none; }
+.menu-tab{
+  flex: 0 0 auto; padding: 10px 20px; border-radius: 999px; border: 1px solid var(--border-dark);
+  font-size: 13.5px; font-weight: 600; color: var(--muted-dark); background: transparent; white-space: nowrap;
+  transition: all .3s var(--ease);
+}
+.menu-tab.active, .menu-tab:hover{ background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
+
+.menu-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 18px 32px; }
+.menu-item{
+  display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--border-dark);
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.menu-item .mi-left{ flex: 1; }
+.menu-item h5{ font-family: var(--font-display); font-size: 17.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.menu-item .mi-veg{ width: 13px; height: 13px; border: 1.5px solid var(--green); border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; }
+.menu-item .mi-veg::after{ content:""; width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+.menu-item p{ margin-top: 6px; font-size: 13.5px; color: var(--muted-dark); max-width: 380px; }
+.menu-item .mi-price{ font-family: var(--font-display); font-size: 15px; white-space: nowrap; padding-top: 2px; }
+.menu-item .mi-price.na{ font-family: var(--font-body); font-size: 12px; color: var(--muted-dark); font-style: italic; }
+.menu-item.featured h5::after{ content: "Popular"; font-family: var(--font-body); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; background: var(--gold); color: #1b1512; padding: 3px 8px; border-radius: 999px; font-weight: 700; }
+
+.menu-empty{ display: none; padding: 60px 0; text-align: center; color: var(--muted-dark); font-style: italic; grid-column: 1 / -1; }
+.menu-empty.show{ display: block; }
+
+@media (max-width: 720px){
+  .menu-grid{ grid-template-columns: 1fr; }
+  .menu-tabs{ top: 0; }
+}
+
+/* ============================= EXPERIENCE ============================= */
+#experience{ background: var(--bg-dark); color: var(--text-light); }
+.exp-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.exp-card{
+  position: relative; border-radius: var(--radius-lg); overflow: hidden; aspect-ratio: 3/4; box-shadow: var(--shadow-md);
+}
+.exp-card img{ width: 100%; height: 100%; object-fit: cover; transition: transform .8s var(--ease); }
+.exp-card:hover img{ transform: scale(1.08); }
+.exp-card::after{ content:""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 30%, rgba(10,8,6,.92) 100%); }
+.exp-body{ position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 24px; z-index: 2; }
+.exp-body h4{ font-size: 21px; color: var(--cream); }
+.exp-body p{ margin-top: 8px; font-size: 14px; color: var(--muted); }
+.exp-arrow{ margin-top: 14px; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); display: flex; align-items: center; justify-content: center; transition: transform .3s var(--ease), background .3s var(--ease); }
+.exp-arrow svg{ width: 14px; height: 14px; color: var(--cream); }
+.exp-card:hover .exp-arrow{ background: var(--gold); border-color: var(--gold); transform: rotate(45deg); }
+
+@media (max-width: 860px){ .exp-grid{ grid-template-columns: 1fr; } .exp-card{ aspect-ratio: 16/10; } }
+
+/* ============================= REVIEWS ============================= */
+#reviews{ background: var(--cream-soft); }
+.reviews-summary{ display: flex; align-items: center; gap: 22px; margin-bottom: 40px; flex-wrap: wrap; }
+.rating-big{ font-family: var(--font-display); font-size: 56px; font-weight: 700; }
+.rating-meta .stars{ color: var(--gold); font-size: 18px; letter-spacing: 2px; }
+.rating-meta p{ margin-top: 4px; font-size: 13.5px; color: var(--muted-dark); }
+
+.review-track-wrap{ position: relative; overflow: hidden; }
+.review-track{ display: flex; gap: 24px; transition: transform .6s var(--ease); }
+.review-card{
+  flex: 0 0 calc(33.333% - 16px); background: var(--cream); border-radius: var(--radius-lg); padding: 30px 28px;
+  border: 1px solid var(--border-dark); display: flex; flex-direction: column;
+}
+.review-card .stars{ color: var(--gold); font-size: 14px; letter-spacing: 2px; }
+.review-card p.quote{ margin-top: 16px; font-size: 15px; color: var(--text-dark); flex: 1; }
+.review-foot{ margin-top: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: var(--muted-dark); }
+.review-foot .verified{ display: inline-flex; align-items: center; gap: 5px; }
+.review-foot .verified svg{ width: 13px; height: 13px; color: var(--green); }
+
+.review-controls{ display: flex; align-items: center; justify-content: center; gap: 24px; margin-top: 34px; }
+.review-arrow{
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-dark); display: flex; align-items: center; justify-content: center;
+  background: transparent; transition: background .3s var(--ease), border-color .3s var(--ease);
+}
+.review-arrow svg{ width: 16px; height: 16px; }
+.review-arrow:hover{ background: var(--text-dark); border-color: var(--text-dark); color: var(--cream); }
+.review-dots{ display: flex; gap: 8px; }
+.review-dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--border-dark); border: none; padding: 0; transition: background .3s var(--ease), transform .3s var(--ease); }
+.review-dot.active{ background: var(--gold); transform: scale(1.3); }
+
+@media (max-width: 900px){ .review-card{ flex: 0 0 calc(50% - 12px); } }
+@media (max-width: 620px){ .review-card{ flex: 0 0 100%; } .rating-big{ font-size: 44px; } }
+
+/* ============================= GALLERY ============================= */
+#gallery{ background: var(--cream); }
+.gallery-filters{ display: flex; gap: 10px; margin-bottom: 32px; flex-wrap: wrap; }
+.gallery-filter{
+  padding: 9px 18px; border-radius: 999px; border: 1px solid var(--border-dark); background: transparent;
+  font-size: 13px; font-weight: 600; color: var(--muted-dark); transition: all .3s var(--ease);
+}
+.gallery-filter.active, .gallery-filter:hover{ background: var(--text-dark); color: var(--cream); border-color: var(--text-dark); }
+
+.gallery-grid{
+  columns: 4 240px; column-gap: 16px;
+}
+.gallery-item{
+  break-inside: avoid; margin-bottom: 16px; border-radius: var(--radius-md); overflow: hidden; position: relative; cursor: pointer;
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.gallery-item img{ width: 100%; display: block; transition: transform .6s var(--ease); }
+.gallery-item:hover img{ transform: scale(1.06); }
+.gallery-item.hide{ display: none; }
+.gallery-overlay{
+  position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(10,8,6,.75) 100%);
+  opacity: 0; transition: opacity .4s var(--ease); display: flex; align-items: flex-end; padding: 14px;
+}
+.gallery-item:hover .gallery-overlay{ opacity: 1; }
+.gallery-overlay span{ color: var(--cream); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+@media (max-width: 768px){ .gallery-grid{ columns: 2 160px; } }
+
+/* Lightbox */
+#lightbox{
+  position: fixed; inset: 0; background: rgba(10,8,6,.96); z-index: 800; display: none;
+  align-items: center; justify-content: center; padding: 40px;
+}
+#lightbox.open{ display: flex; }
+#lightbox img{ max-width: 88vw; max-height: 82vh; object-fit: contain; border-radius: 6px; }
+.lightbox-close, .lightbox-prev, .lightbox-next{
+  position: absolute; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.25); color: var(--cream);
+  width: 46px; height: 46px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  transition: background .3s var(--ease);
+}
+.lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover{ background: rgba(255,255,255,.2); }
+.lightbox-close{ top: 24px; right: 24px; }
+.lightbox-prev{ left: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-next{ right: 24px; top: 50%; transform: translateY(-50%); }
+.lightbox-close svg, .lightbox-prev svg, .lightbox-next svg{ width: 18px; height: 18px; }
+@media (max-width: 640px){
+  .lightbox-prev, .lightbox-next{ width: 38px; height: 38px; }
+  .lightbox-prev{ left: 10px; } .lightbox-next{ right: 10px; }
+  .lightbox-close{ top: 12px; right: 12px; }
+}
+
+/* ============================= LOCATION ============================= */
+#location{ background: var(--cream-soft); }
+.location-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center; }
+.map-box{
+  aspect-ratio: 4/3.3; border-radius: var(--radius-lg); background: var(--bg-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  color: var(--cream); text-align: center; position: relative; overflow: hidden; box-shadow: var(--shadow-md);
+}
+.map-box::before{
+  content:""; position: absolute; inset: 0; opacity: .5;
+  background-image: radial-gradient(circle at 20% 30%, rgba(196,154,90,.18), transparent 40%),
+                     radial-gradient(circle at 80% 70%, rgba(83,107,69,.18), transparent 45%);
+}
+.map-pin{ width: 46px; height: 46px; color: var(--gold); position: relative; z-index: 1; }
+.map-box h4{ font-size: 22px; position: relative; z-index: 1; }
+.map-box p{ font-size: 13.5px; color: var(--muted); position: relative; z-index: 1; }
+.map-box .btn{ margin-top: 10px; position: relative; z-index: 1; }
+
+.hours-card{
+  margin-top: 26px; background: var(--cream); border: 1px solid var(--border-dark); border-radius: var(--radius-lg);
+  padding: 24px 26px;
+}
+.hours-top{ display: flex; align-items: center; justify-content: space-between; }
+.hours-top .label{ font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-dark); font-weight: 600; }
+.hours-status{ font-size: 12.5px; font-weight: 700; padding: 5px 12px; border-radius: 999px; letter-spacing: .04em; }
+.hours-status.open{ background: rgba(83,107,69,.14); color: var(--green); }
+.hours-status.closed{ background: rgba(150,60,50,.12); color: #8a3a30; }
+.hours-time{ font-family: var(--font-display); font-size: 24px; margin-top: 10px; }
+
+.location-content .address{ margin-top: 18px; color: var(--muted-dark); font-size: 16px; max-width: 420px; }
+.location-ctas{ display: flex; gap: 14px; margin-top: 28px; flex-wrap: wrap; }
+
+@media (max-width: 860px){ .location-grid{ grid-template-columns: 1fr; gap: 40px; } }
+
+/* ============================= FINAL CTA ============================= */
+#final-cta{ background: var(--bg-dark); color: var(--text-light); text-align: center; }
+#final-cta h2{ font-size: clamp(30px, 5vw, 52px); max-width: 700px; margin: 0 auto; }
+#final-cta p{ margin: 20px auto 0; max-width: 520px; color: var(--muted); font-size: 17px; }
+.final-cta-btns{ display: flex; gap: 16px; justify-content: center; margin-top: 36px; flex-wrap: wrap; }
+
+/* ============================= FOOTER ============================= */
+footer{ background: #100d0b; color: var(--text-light); padding: var(--space-6) 0 var(--space-4); }
+.footer-top{ display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; padding-bottom: var(--space-5); border-bottom: 1px solid var(--border); }
+.footer-brand .l1{ font-family: var(--font-display); font-size: 24px; }
+.footer-brand .tag{ margin-top: 12px; font-size: 14px; color: var(--muted); max-width: 260px; }
+.footer-col h5{ font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.footer-col a, .footer-col p{ display: block; font-size: 14.5px; color: var(--muted); margin-bottom: 10px; transition: color .3s var(--ease); }
+.footer-col a:hover{ color: var(--cream); }
+.footer-bottom{ display: flex; justify-content: space-between; align-items: center; padding-top: 26px; font-size: 13px; color: var(--muted-dark); flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 860px){ .footer-top{ grid-template-columns: 1fr 1fr; row-gap: 32px; } }
+@media (max-width: 520px){ .footer-top{ grid-template-columns: 1fr; } .footer-bottom{ flex-direction: column; align-items: flex-start; } }
+
+/* ============================= MOBILE BOTTOM BAR ============================= */
+#mobile-bar{
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 400;
+  background: rgba(23,19,16,.96); backdrop-filter: blur(12px); border-top: 1px solid var(--border);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+}
+#mobile-bar .bar-inner{ display: flex; gap: 10px; }
+.bar-btn{
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  min-height: 48px; border-radius: var(--radius-md); color: var(--text-light); font-size: 11px; font-weight: 600;
+  letter-spacing: .03em; background: rgba(255,255,255,.06); border: 1px solid var(--border);
+}
+.bar-btn svg{ width: 18px; height: 18px; color: var(--gold-light); }
+.bar-btn.primary{ background: var(--gold); color: #1b1512; border-color: var(--gold); }
+.bar-btn.primary svg{ color: #1b1512; }
+@media (max-width: 860px){ #mobile-bar{ display: block; } body{ padding-bottom: 78px; } }
+
+/* ============================= BACK TO TOP ============================= */
+#back-to-top{
+  position: fixed; right: 22px; bottom: 96px; z-index: 300; width: 46px; height: 46px; border-radius: 50%;
+  background: var(--bg-dark); color: var(--cream); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-sm);
+  opacity: 0; visibility: hidden; transform: translateY(10px); transition: all .4s var(--ease);
+}
+#back-to-top.show{ opacity: 1; visibility: visible; transform: translateY(0); }
+#back-to-top svg{ width: 17px; height: 17px; }
+@media (max-width: 860px){ #back-to-top{ bottom: 96px; } }
+@media (min-width: 861px){ #back-to-top{ bottom: 32px; } }
+
+/* image fallback */
+img.img-fallback{ background: linear-gradient(135deg, var(--bg-dark-soft), var(--bg-dark)); }
+
+.skip-link{
+  position: absolute; left: -999px; top: 0; background: var(--gold); color: #1b1512; padding: 12px 18px; z-index: 1000;
+  font-weight: 700; border-radius: 0 0 8px 0;
+}
+.skip-link:focus{ left: 0; }
+</style>
 </head>
 <body>
 
-<!-- LOADING SCREEN -->
-<div id="loadingScreen">
-  <div class="splash-logo-wrap">
-    <div class="splash-wordmark"><span class="ap">AP</span><span class="ykart">YKART</span></div>
-    <div class="splash-tag">Earn While You Shop</div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- ============================= LOADER ============================= -->
+<div id="loader" aria-hidden="true">
+  <div class="loader-mark">
+    <span class="l1">RP</span>
+    <span class="l2">RESTAURANT</span>
   </div>
-  <div class="splash-loader">
-    <div class="splash-loading-text">Loading…</div>
-    <div class="splash-dots">
-      <div class="splash-dot"></div><div class="splash-dot"></div><div class="splash-dot"></div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- ============================= NAVBAR ============================= -->
+<header id="navbar">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="RP Restaurant home">
+      <span class="l1">RP</span>
+      <span class="l2">RESTAURANT</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a href="#hero" data-section="hero">Home</a>
+      <a href="#about" data-section="about">About</a>
+      <a href="#menu" data-section="menu">Menu</a>
+      <a href="#experience" data-section="experience">Experience</a>
+      <a href="#reviews" data-section="reviews">Reviews</a>
+      <a href="#gallery" data-section="gallery">Gallery</a>
+      <a href="#location" data-section="location">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <a class="btn btn-secondary nav-cta desktop-only" id="nav-directions" href="#" target="_blank" rel="noopener">
+        Get Directions
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
+  </div>
+</header>
+
+<!-- ============================= MOBILE MENU ============================= -->
+<div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+  <ul>
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#location">Contact</a></li>
+  </ul>
+  <div class="mobile-cta">
+    <a class="btn btn-primary" id="mobile-call" href="tel:+919307677778">Call Restaurant</a>
+    <a class="btn btn-secondary" id="mobile-directions" href="#" target="_blank" rel="noopener">Get Directions</a>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div id="app">
-  <header class="app-header" id="appHeader">
-    <div class="header-logo" onclick="showPage('home')" style="flex:none">
-      <div style="display:flex;align-items:center;gap:7px">
-        <div class="header-logo-text" style="font-size:22px">apykart</div>
-      </div>
-      <div style="display:flex;align-items:center;gap:3px;margin-top:2px;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);border-radius:99px;padding:2px 7px;width:fit-content">
-        <div style="width:5px;height:5px;background:#f97316;border-radius:50%;animation:videoPulse 2s infinite"></div>
-        <span style="font-size:9px;font-weight:700;color:#ea580c;letter-spacing:.3px;text-transform:uppercase">Video Commerce</span>
-      </div>
-    </div>
-    <div style="flex:1"></div>
-    <div class="header-actions" style="display:flex;gap:8px;align-items:center">
-      <div class="header-btn coin-pill-glow" onclick="showPage('wallet')" title="ApyCoins" style="width:auto;padding:0 10px;display:flex;align-items:center;gap:5px;border-radius:99px;height:34px">
-        <span style="font-size:16px">🪙</span>
-        <span id="headerCoinBalance" style="font-size:13px;font-weight:800;color:#92400e">0</span>
-      </div>
-    </div>
-  </header>
+<main id="main-content">
 
-  <div class="page-scroll" id="pageScroll">
-
-    <!-- HOME -->
-    <div class="page active" id="page-home">
-      <div class="home-search-bar">
-        <div class="home-search-input" onclick="showPage('search')" style="justify-content:flex-start">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="color:#e2e8f0;flex-shrink:0"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <span>Search products, brands…</span>
-        </div>
-      </div>
-
-      <div class="hero-carousel" id="heroCarousel"></div>
-
-      <div class="earn-hub-card" onclick="showPage('refer')">
-        <div class="earn-hub-badge">💰 EARN WITH APYKART</div>
-        <div class="earn-hub-title">Turn your time into income</div>
-        <div class="earn-hub-grid">
-          <div class="earn-hub-item" onclick="event.stopPropagation();openVideoUpload()">
-            <div class="earn-hub-icon" style="background:linear-gradient(135deg,#f97316,#ec4899)">🎥</div>
-            <div class="earn-hub-label">Create Content & Earn</div>
-          </div>
-          <div class="earn-hub-item" onclick="event.stopPropagation();showPage('profile')">
-            <div class="earn-hub-icon" style="background:linear-gradient(135deg,#10b981,#059669)">🤝</div>
-            <div class="earn-hub-label">Affiliate Marketing</div>
-          </div>
-          <div class="earn-hub-item" onclick="event.stopPropagation();handleBecomeSellerCTA()">
-            <div class="earn-hub-icon" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">🛍️</div>
-            <div class="earn-hub-label">Start Reselling</div>
-          </div>
-          <div class="earn-hub-item" onclick="event.stopPropagation();showPage('refer')">
-            <div class="earn-hub-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706)">👥</div>
-            <div class="earn-hub-label">Refer Friends</div>
-          </div>
-        </div>
-        <div class="earn-hub-cta">Start Earning →</div>
-      </div>
-
-      <div class="section-header" style="padding-top:14px">
-        <div class="section-title">🎬 Trending Videos</div>
-        <div class="section-link" onclick="showPage('xplor')">See All →</div>
-      </div>
-      <div id="trendingVideosScroll" class="trending-videos-scroll"></div>
-
-      <div class="flash-strip" style="margin-top:12px">
-        <div style="display:flex;align-items:center;color:#fbbf24"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-        <div style="flex:1"><div style="font-size:12px;font-weight:800;color:#fff">Flash Sale Ends In</div><div style="font-size:10px;color:rgba(255,255,255,.55);margin-top:1px;font-weight:500">Hurry! Limited stock available</div></div>
-        <div class="flash-timer">
-          <div class="timer-block" id="timerH">05</div><div class="timer-sep">:</div>
-          <div class="timer-block" id="timerM">42</div><div class="timer-sep">:</div>
-          <div class="timer-block" id="timerS">18</div>
-        </div>
-      </div>
-
-      <div class="section-header"><div class="section-title">Shop by Category</div></div>
-      <div class="categories-scroll" id="categoriesScroll"></div>
-
-      <div class="coin-earn-strip" onclick="showPage('wallet')">
-        <div class="coin-earn-strip-icon">🪙</div>
-        <div class="coin-earn-strip-text">
-          <div class="coin-earn-strip-title">Shop & Earn ApyCoins</div>
-          <div class="coin-earn-strip-sub">Collect ApyCoins and enjoy exciting discounts on your purchases.</div>
-        </div>
-        <div class="coin-earn-strip-arrow">›</div>
-      </div>
-
-      <div id="homeGrid"></div>
-      <div id="viralProductsSection"></div>
-
-      <div class="seller-cta-card">
-        <div class="seller-cta-icon">🚀</div>
-        <div class="seller-cta-title">Grow Your Business With ApyKart</div>
-        <div class="seller-cta-sub">Reach more customers through creators and social commerce.</div>
-        <div class="seller-cta-features">
-          <div class="seller-cta-feat">✔️ Zero Listing Fee</div>
-          <div class="seller-cta-feat">✔️ Fast Onboarding</div>
-          <div class="seller-cta-feat">✔️ Sell Across India</div>
-          <div class="seller-cta-feat">✔️ Easy Seller Dashboard</div>
-        </div>
-        <button class="seller-cta-btn" onclick="handleBecomeSellerCTA()">Become a Seller</button>
-      </div>
-    </div>
-
-    <!-- SEARCH -->
-    <div class="page" id="page-search">
-      <div class="search-header">
-        <div class="search-input-wrap">
-          <div style="color:var(--text3);display:flex;align-items:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-          <input type="text" id="searchInput" placeholder="Search products, brands…" oninput="handleSearch(this.value)" autocomplete="off">
-          <div class="search-clear" id="searchClear" onclick="clearSearch()">✕</div>
-        </div>
-      </div>
-      <div id="searchContent"></div>
-    </div>
-
-    <!-- XPLOR -->
-    <div class="page" id="page-xplor">
-      <div id="xplorContent" style="height:100%;position:relative"></div>
-    </div>
-
-    <!-- MY VIDEOS -->
-    <div class="page" id="page-my-videos"><div id="myVideosContent"></div></div>
-    <!-- UPLOAD VIDEO -->
-    <div class="page" id="page-upload-video">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">Upload Video</div>
-      </div>
-      <div id="uploadVideoContent"></div>
-    </div>
-
-    <!-- PRODUCT DETAIL -->
-    <div class="page" id="page-detail">
-      <div id="detailContent"></div>
-      <div class="detail-cta-bar" id="detailCta"></div>
-    </div>
-
-    <!-- CART -->
-    <div class="page" id="page-cart">
-      <div id="cartContent"></div>
-      <div id="cartCta"></div>
-    </div>
-
-    <!-- CHECKOUT -->
-    <div class="page" id="page-checkout">
-      <div class="checkout-page" id="checkoutContent"></div>
-      <div class="checkout-place-bar">
-        <button class="btn-place-order" id="placeOrderBtn" onclick="placeOrder()">
-          <span id="placeOrderText">Place Order Securely</span>
-          <span class="spinner hide" id="placeSpinner"></span>
-        </button>
-      </div>
-    </div>
-
-    <!-- SUCCESS -->
-    <div class="page" id="page-success"><div id="successContent"></div></div>
-
-    <!-- PROFILE -->
-    <div class="page" id="page-profile">
-      <div class="profile-page" id="profileContent"></div>
-    </div>
-
-    <!-- ORDERS -->
-    <div class="page" id="page-orders">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">My Orders</div>
-      </div>
-      <div id="ordersContent"></div>
-    </div>
-
-    <!-- WISHLIST -->
-    <div class="page" id="page-wishlist">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">My Wishlist</div>
-      </div>
-      <div id="wishlistContent"></div>
-    </div>
-
-    <!-- WALLET -->
-    <div class="page" id="page-wallet">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">ApyCoins Wallet</div>
-      </div>
-      <div id="walletContent"></div>
-    </div>
-
-    <!-- ADDRESSES -->
-    <div class="page" id="page-addresses">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">My Addresses</div>
-        <div class="sub-page-action" onclick="openAddressForm(null)">+ Add</div>
-      </div>
-      <div id="addressesContent"></div>
-    </div>
-
-    <!-- REFER -->
-    <div class="page" id="page-refer">
-      <div class="sub-page-header">
-        <div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div>
-        <div class="sub-page-title">Refer & Earn</div>
-      </div>
-      <div id="referContent"></div>
-    </div>
-
-    <!-- HELP, RATE, TERMS, ABOUT -->
-    <div class="page" id="page-help"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Help & Support</div></div><div id="helpContent"></div></div>
-    <div class="page" id="page-rate"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Rate the App</div></div><div id="rateContent"></div></div>
-    <div class="page" id="page-terms"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">Terms & Conditions</div></div><div id="termsContent"></div></div>
-    <div class="page" id="page-about"><div class="sub-page-header"><div class="sub-page-back" onclick="showPage('profile')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></div><div class="sub-page-title">About Apykart</div></div><div id="aboutContent"></div></div>
+<!-- ============================= HERO ============================= -->
+<section id="hero">
+  <div class="hero-media">
+    <img id="hero-img" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80" alt="Warm plated North Indian vegetarian dishes at RP Restaurant" loading="eager" decoding="async">
   </div>
-
-  <!-- SELLER DASHBOARD -->
-  <div class="page" id="page-seller-dashboard">
-    <div class="seller-dashboard-container">
-      <div class="seller-header-bar">
-        <button class="seller-header-back" onclick="showPage('profile')"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-        <div class="seller-header-info">
-          <div class="seller-header-name" id="sellerDisplayName">Seller Dashboard</div>
-          <div class="seller-header-status">
-            <span class="seller-status-badge" id="sellerVerificationStatus" style="background:#fef3c7;color:#92400e">⏳ Pending Verification</span>
-          </div>
-        </div>
-      </div>
-      <div class="seller-content" id="sellerTabContent"></div>
-      <nav class="seller-bottom-tabs">
-        <div class="seller-tab-item active" data-tab="overview"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">📊</div><div class="seller-tab-label">Overview</div></div>
-        <div class="seller-tab-item" data-tab="products"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">📦</div><div class="seller-tab-label">Products</div></div>
-        <div class="seller-tab-item" data-tab="add-product"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">➕</div><div class="seller-tab-label">Add</div></div>
-        <div class="seller-tab-item" data-tab="earnings"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">💰</div><div class="seller-tab-label">Earnings</div></div>
-        <div class="seller-tab-item" data-tab="withdraw"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">🏦</div><div class="seller-tab-label">Withdraw</div></div>
-        <div class="seller-tab-item" data-tab="profile"><div class="seller-tab-active-bar"></div><div class="seller-tab-icon">⚙️</div><div class="seller-tab-label">Settings</div></div>
-      </nav>
+  <div class="container hero-inner">
+    <p class="hero-eyebrow reveal fade-up">Welcome to RP Restaurant</p>
+    <h1 class="reveal fade-up">Good Food.<br>Warm Hospitality.<br>Memorable Moments.</h1>
+    <p class="hero-sub reveal fade-up">A welcoming vegetarian dining destination in Phaphamau, Prayagraj, serving North Indian and Chinese favourites in a comfortable family-friendly setting.</p>
+    <div class="hero-ctas reveal fade-up">
+      <a href="#menu" class="btn btn-primary">Explore Menu
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a href="#" id="hero-directions" class="btn btn-secondary" target="_blank" rel="noopener">Get Directions
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+      </a>
+    </div>
+    <div class="hero-trust reveal fade-up">
+      <div class="item"><strong id="trust-rating">4.4★</strong>Rated</div>
+      <div class="item"><strong id="trust-reviews">2,000+</strong>Reviews</div>
+      <div class="item"><strong>100%</strong>Vegetarian</div>
+      <div class="item"><strong>11 AM–11 PM</strong>Open Daily</div>
     </div>
   </div>
-
-  <!-- BOTTOM NAV -->
-  <nav class="bottom-nav">
-    <div class="nav-item active" id="nav-home" onclick="showPage('home')">
-      <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-      <div class="nav-label">Home</div><div class="nav-active-dot"></div>
-    </div>
-    <div class="nav-item" id="nav-search" onclick="showPage('search')">
-      <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-      <div class="nav-label">Search</div><div class="nav-active-dot"></div>
-    </div>
-    <div class="nav-item" id="nav-xplor" onclick="showPage('xplor')">
-      <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg></div>
-      <div class="nav-label">Xplor</div><div class="nav-active-dot"></div>
-    </div>
-    <div class="nav-item" id="nav-cart" onclick="showPage('cart')">
-      <div class="nav-cart-wrap">
-        <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
-        <span class="cart-badge" id="navCartBadge" style="display:none;position:absolute;top:-6px;right:-8px;border-color:#fff">0</span>
-      </div>
-      <div class="nav-label">Cart</div><div class="nav-active-dot"></div>
-    </div>
-    <div class="nav-item" id="nav-profile" onclick="showPage('profile')">
-      <div class="nav-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-      <div class="nav-label">Profile</div><div class="nav-active-dot"></div>
-    </div>
-  </nav>
-</div>
-
-<!-- TOAST & MODALS -->
-<div class="toast-container" id="toastContainer"></div>
-<div id="modalPortal"></div>
-<div id="welcomePopupPortal"></div>
-<div id="imgPreviewModal" onclick="closeImgPreview()">
-  <button class="img-preview-close" onclick="closeImgPreview()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-  <img class="img-preview-img" id="imgPreviewSrc" src="" alt="Preview" onclick="event.stopPropagation()">
-  <div class="img-preview-caption" id="imgPreviewCaption"></div>
-</div>
-<div class="coming-soon-overlay" id="comingSoonOverlay" style="display:none" onclick="hideComingSoon()">
-  <div class="coming-soon-sheet" onclick="event.stopPropagation()">
-    <div style="font-size:56px;margin-bottom:12px">🚀</div>
-    <div style="font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--text);margin-bottom:8px" id="comingSoonTitle">Coming Soon!</div>
-    <div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.5">We're working hard to bring this feature. Stay tuned!</div>
-    <button class="btn-dismiss" onclick="hideComingSoon()">Got it!</button>
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <div class="dot"></div>
   </div>
+</section>
+
+<!-- ============================= TRUST STRIP ============================= -->
+<section id="trust-strip">
+  <div class="container trust-grid">
+    <div class="trust-item"><span class="trust-num">01</span><h4>Phaphamau</h4><p>Prayagraj</p></div>
+    <div class="trust-item"><span class="trust-num">02</span><h4>North Indian &amp; Chinese</h4><p>Two cuisines, one kitchen</p></div>
+    <div class="trust-item"><span class="trust-num">03</span><h4>Vegetarian Dining</h4><p>100% veg menu</p></div>
+    <div class="trust-item"><span class="trust-num">04</span><h4>Open Daily</h4><p id="trust-hours-strip">11 AM – 11 PM</p></div>
+  </div>
+</section>
+
+<!-- ============================= ABOUT ============================= -->
+<section id="about" class="section-pad">
+  <div class="container about-grid">
+    <div class="about-media reveal fade-left">
+      <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=80" alt="Comfortable dining interior at RP Restaurant" loading="lazy" decoding="async">
+      <div class="about-badge">RP</div>
+    </div>
+    <div class="about-content reveal fade-right">
+      <p class="eyebrow">About RP Restaurant</p>
+      <h2>A Place to Eat, Relax &amp; Come Back To</h2>
+      <p>RP Restaurant is a welcoming dining destination in Phaphamau, Prayagraj, created around good food, comfortable dining and warm hospitality.</p>
+      <p>From North Indian favourites to Chinese classics, the restaurant offers a vegetarian dining experience suited to family meals, casual dining, groups and travellers passing through the area.</p>
+      <span class="since" id="since-line" hidden>Serving guests since 2018</span>
+      <div>
+        <a href="#experience" class="btn-text">Discover RP Restaurant
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= WHY RP ============================= -->
+<section id="why" class="section-pad">
+  <div class="container">
+    <div class="section-head on-dark reveal fade-up">
+      <p class="eyebrow">The RP Experience</p>
+      <h2>Simple Things. Done Well.</h2>
+    </div>
+    <div class="feature-grid reveal fade-up">
+      <div class="feature-card">
+        <span class="feature-num">01</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 11c0-4 3-7 8-7s8 3 8 7-3 7-8 7-8-3-8-7Z"/><path d="M9 22l3-4 3 4"/></svg></div>
+        <h4>Quality Food</h4>
+        <p>Thoughtfully prepared vegetarian dishes with rich flavours.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">02</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.6"/><path d="M2 21v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1"/><path d="M15 15.2a4 4 0 0 1 5 3.8v1"/></svg></div>
+        <h4>Family Friendly</h4>
+        <p>A comfortable setting for meals with family and friends.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">03</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 20V10l8-6 8 6v10"/><path d="M9 20v-6h6v6"/></svg></div>
+        <h4>Comfortable Ambience</h4>
+        <p>A welcoming environment designed for relaxed dining.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">04</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+        <h4>Great Location</h4>
+        <p>Conveniently located along the Phaphamau Bypass / Lucknow–Prayagraj Highway.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">05</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M8 6V4h8v2"/><path d="M8 12h4"/></svg></div>
+        <h4>Parking</h4>
+        <p>Convenient parking availability for visitors.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-num">06</span>
+        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v5a2 2 0 0 0 2 2h1v-7H4Z"/><path d="M20 13v5a2 2 0 0 1-2 2h-1v-7h3Z"/></svg></div>
+        <h4>Warm Service</h4>
+        <p>A hospitality experience built around welcoming guests.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= SIGNATURE DISHES ============================= -->
+<section id="dishes" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal fade-up">
+      <p class="eyebrow">From the Kitchen</p>
+      <h2>What People Love</h2>
+      <p>Explore a few favourites that guests have mentioned when talking about RP Restaurant.</p>
+    </div>
+    <div class="dish-scroller" id="dish-scroller"></div>
+  </div>
+</section>
+
+<!-- ============================= MENU ============================= -->
+<section id="menu" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal fade-up">
+      <p class="eyebrow">The Menu</p>
+      <h2>Something for Every Craving</h2>
+    </div>
+
+    <div class="menu-search" id="menu-search-wrap">
+      <input type="text" id="menu-search" placeholder="Search dishes..." aria-label="Search dishes">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <button class="clear-btn" id="menu-search-clear" aria-label="Clear search">&times;</button>
+    </div>
+
+    <div class="menu-tabs" id="menu-tabs" role="tablist" aria-label="Menu categories"></div>
+
+    <div class="menu-grid" id="menu-grid"></div>
+    <p class="menu-empty" id="menu-empty">No dishes found for your search.</p>
+  </div>
+</section>
+
+<!-- ============================= EXPERIENCE ============================= -->
+<section id="experience" class="section-pad">
+  <div class="container">
+    <div class="section-head on-dark reveal fade-up">
+      <p class="eyebrow">More Than Just a Meal</p>
+      <h2>Come for the Food. Stay for the Experience.</h2>
+    </div>
+    <div class="exp-grid">
+      <div class="exp-card reveal fade-up">
+        <img src="https://images.unsplash.com/photo-1529543544282-ea669407fca3?auto=format&fit=crop&w=900&q=80" alt="Family enjoying a meal together" loading="lazy" decoding="async">
+        <div class="exp-body">
+          <h4>Family Dining</h4>
+          <p>Comfortable moments around good food.</p>
+          <div class="exp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+      </div>
+      <div class="exp-card reveal fade-up">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=900&q=80" alt="Group of friends gathered at a restaurant table" loading="lazy" decoding="async">
+        <div class="exp-body">
+          <h4>Group Gatherings</h4>
+          <p>A welcoming setting for meals with friends and groups.</p>
+          <div class="exp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+      </div>
+      <div class="exp-card reveal fade-up">
+        <img src="https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=900&q=80" alt="Highway stop dining for travellers" loading="lazy" decoding="async">
+        <div class="exp-body">
+          <h4>Travellers</h4>
+          <p>A convenient dining stop around Phaphamau.</p>
+          <div class="exp-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= REVIEWS ============================= -->
+<section id="reviews" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal fade-up">
+      <p class="eyebrow">Guest Experiences</p>
+      <h2>Loved by Our Guests</h2>
+    </div>
+    <div class="reviews-summary reveal fade-up">
+      <div class="rating-big" id="rating-big">4.4</div>
+      <div class="rating-meta">
+        <div class="stars" id="rating-stars" aria-hidden="true">★★★★★</div>
+        <p id="rating-count">2,000+ public reviews</p>
+      </div>
+    </div>
+
+    <div class="review-track-wrap reveal fade-up">
+      <div class="review-track" id="review-track"></div>
+    </div>
+    <div class="review-controls">
+      <button class="review-arrow" id="review-prev" aria-label="Previous reviews">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <div class="review-dots" id="review-dots"></div>
+      <button class="review-arrow" id="review-next" aria-label="Next reviews">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= GALLERY ============================= -->
+<section id="gallery" class="section-pad">
+  <div class="container">
+    <div class="section-head reveal fade-up">
+      <p class="eyebrow">A Glimpse Inside</p>
+      <h2>The RP Atmosphere</h2>
+    </div>
+    <div class="gallery-filters reveal fade-up" id="gallery-filters"></div>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close image viewer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 6l-6 6 6 6"/></svg>
+  </button>
+  <img id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+  </button>
 </div>
 
-<!-- FIREBASE MODULES + APP SCRIPTS -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getFirestore, doc, setDoc, updateDoc, addDoc, getDoc, getDocs, collection, onSnapshot, deleteDoc, query, where, orderBy, serverTimestamp, limit, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-  import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+<!-- ============================= LOCATION ============================= -->
+<section id="location" class="section-pad">
+  <div class="container location-grid">
+    <div class="reveal fade-left">
+      <div class="map-box">
+        <svg class="map-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+        <h4>RP Restaurant</h4>
+        <p>Phaphamau, Prayagraj</p>
+        <a href="#" id="map-directions" class="btn btn-primary" target="_blank" rel="noopener">Open in Google Maps
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        </a>
+      </div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyB9wwF-K1AwN8xlrppiKELDXx0NxqJknbc",
-    authDomain: "apykart-916.firebaseapp.com",
-    projectId: "apykart-916",
-    storageBucket: "apykart-916.firebasestorage.app",
-    messagingSenderId: "787741109597",
-    appId: "1:787741109597:web:883a5eee5e9bb9602f8cb4"
-  };
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-  const provider = new GoogleAuthProvider();
+      <div class="hours-card">
+        <div class="hours-top">
+          <span class="label">Open Today</span>
+          <span class="hours-status" id="hours-status">—</span>
+        </div>
+        <div class="hours-time" id="hours-time">11:00 AM – 11:00 PM</div>
+      </div>
+    </div>
 
-  window._fbAuth = { auth, provider, signInWithPopup, signOut, onAuthStateChanged };
-  window._db = db;
-  window._storage = storage;
-  window._storageRef = ref;
-  window._getDownloadURL = getDownloadURL;
-  window._uploadBytesResumable = uploadBytesResumable;
-  window._deleteObject = deleteObject;
-  window._fsHelpers = { db, doc, setDoc, updateDoc, addDoc, getDoc, getDocs, collection, onSnapshot, deleteDoc, query, where, orderBy, serverTimestamp, limit, increment };
-  window._fbReady = true;
-  window.dispatchEvent(new Event('firebase-ready'));
+    <div class="location-content reveal fade-right">
+      <p class="eyebrow">Come Find Us</p>
+      <h2>Your Table Is Waiting</h2>
+      <p class="address">Phaphamau Bypass, Lucknow–Prayagraj Highway, opposite Sabzi Mandi, Phaphamau, Prayagraj, Uttar Pradesh 211013</p>
+      <div class="location-ctas">
+        <a href="#" id="location-directions" class="btn btn-primary" target="_blank" rel="noopener">Get Directions
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg>
+        </a>
+        <a href="tel:+919307677778" class="btn btn-secondary on-light">Call Restaurant</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FINAL CTA ============================= -->
+<section id="final-cta" class="section-pad">
+  <div class="container">
+    <h2 class="reveal fade-up">Good Food Is Better Shared.</h2>
+    <p class="reveal fade-up">Planning a family meal, meeting friends or simply looking for something delicious in Phaphamau? Come visit RP Restaurant.</p>
+    <div class="final-cta-btns reveal fade-up">
+      <a href="tel:+919307677778" class="btn btn-primary">Call Now</a>
+      <a href="#" id="cta-directions" class="btn btn-secondary" target="_blank" rel="noopener">Get Directions</a>
+      <a href="#menu" class="btn btn-secondary">Explore Menu</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================= FOOTER ============================= -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="l1">RP RESTAURANT</div>
+        <p class="tag">Good Food. Warm Hospitality. Memorable Moments.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Explore</h5>
+        <a href="#hero">Home</a>
+        <a href="#about">About</a>
+        <a href="#menu">Menu</a>
+        <a href="#experience">Experience</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#gallery">Gallery</a>
+      </div>
+      <div class="footer-col">
+        <h5>Visit</h5>
+        <p>Phaphamau, Prayagraj</p>
+        <a href="#" id="footer-directions" target="_blank" rel="noopener">Get Directions</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact &amp; Hours</h5>
+        <a href="tel:+919307677778">+91 93076 77778</a>
+        <p>11 AM – 11 PM Daily</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year"></span> RP Restaurant. All rights reserved.</span>
+      <span id="footer-since" hidden>Serving guests since 2018</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================= MOBILE BOTTOM BAR ============================= -->
+<nav id="mobile-bar" aria-label="Quick actions">
+  <div class="bar-inner">
+    <a class="bar-btn" href="tel:+919307677778">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M4 13v5a2 2 0 0 0 2 2h1v-7H4Z"/><path d="M20 13v5a2 2 0 0 1-2 2h-1v-7h3Z"/></svg>
+      Call
+    </a>
+    <a class="bar-btn primary" id="bar-directions" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>
+      Directions
+    </a>
+    <a class="bar-btn" href="#menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v18M6 3c-1.5 1-2 3-2 5s.5 4 2 5M18 3v18M18 8h-3a2 2 0 0 1 0-4h3v10"/></svg>
+      Menu
+    </a>
+  </div>
+</nav>
+
+<button id="back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================= CONFIG ============================= */
+const restaurantData = {
+  name: "RP RESTAURANT",
+  fullName: "VEG R P Restaurant & HOTEL",
+  phone: "+91 93076 77778",
+  phoneLink: "tel:+919307677778",
+  address: "Phaphamau Bypass, Lucknow–Prayagraj Highway, opposite Sabzi Mandi, Phaphamau, Prayagraj, Uttar Pradesh 211013",
+  city: "Prayagraj",
+  area: "Phaphamau",
+  cuisine: ["Vegetarian", "North Indian", "Chinese"],
+  openingHours: {
+    0: { open: 11, close: 23 }, // Sunday
+    1: { open: 11, close: 23 },
+    2: { open: 11, close: 23 },
+    3: { open: 11, close: 23 },
+    4: { open: 11, close: 23 },
+    5: { open: 11, close: 23 },
+    6: { open: 11, close: 23 }
+  },
+  rating: 4.4,
+  reviewCount: "2,000+",
+  priceRange: "₹200–₹400",
+  establishedYear: null, // set e.g. 2018 to show "Serving guests since"
+  googleMapsUrl: "",
+  instagramUrl: "",
+  facebookUrl: "",
+  whatsappUrl: ""
+};
+
+const images = {
+  hero: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=80",
+  about: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1000&q=80",
+  fallback: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80"
+};
+
+/* ============================= MENU DATA ============================= */
+const menuData = [
+  { id: 1, category: "Soups", name: "Manchow Soup", description: "A peppery, savoury Indo-Chinese soup topped with crisp noodles.", price: null, veg: true, featured: true },
+  { id: 2, category: "Soups", name: "Veg Hot & Sour Soup", description: "A tangy, lightly spiced soup with fresh vegetables.", price: null, veg: true },
+  { id: 3, category: "Starters", name: "Veg Crispy", description: "Crisp-fried vegetables tossed in a light, flavourful sauce.", price: null, veg: true, featured: true },
+  { id: 4, category: "Starters", name: "Paneer Chilli", description: "Pan-seared paneer tossed with peppers and onions in a bold chilli sauce.", price: null, veg: true, featured: true },
+  { id: 5, category: "Chinese", name: "Chilli Mushroom", description: "Mushrooms wok-tossed with garlic, chilli and spring onion.", price: null, veg: true },
+  { id: 6, category: "Chinese", name: "Veg Manchurian", description: "Vegetable dumplings simmered in a classic Indo-Chinese sauce.", price: null, veg: true },
+  { id: 7, category: "Chinese", name: "Veg Fried Rice", description: "Wok-tossed rice with fresh vegetables and light seasoning.", price: null, veg: true },
+  { id: 8, category: "Chinese", name: "Hakka Noodles", description: "Stir-fried noodles with crunchy vegetables, Indo-Chinese style.", price: null, veg: true },
+  { id: 9, category: "Paneer", name: "Handi Paneer", description: "Rich, aromatic paneer preparation with a comforting North Indian character.", price: null, veg: true, featured: true },
+  { id: 10, category: "Paneer", name: "Paneer Kadhai", description: "Paneer simmered with peppers and onions in a robust kadhai masala.", price: null, veg: true },
+  { id: 11, category: "Paneer", name: "Paneer Butter Masala", description: "Paneer in a velvety tomato and butter gravy.", price: null, veg: true },
+  { id: 12, category: "Main Course", name: "Mix Veg", description: "Seasonal vegetables simmered together in a lightly spiced gravy.", price: null, veg: true },
+  { id: 13, category: "Main Course", name: "Kadhai Vegetable", description: "Garden vegetables tossed in a hearty kadhai-style masala.", price: null, veg: true },
+  { id: 14, category: "Dal", name: "Dal Tadka", description: "Yellow lentils finished with a warm ghee and cumin tempering.", price: null, veg: true, featured: true },
+  { id: 15, category: "Dal", name: "Dal Makhani", description: "Slow-simmered black lentils in a creamy, buttery gravy.", price: null, veg: true },
+  { id: 16, category: "Rice", name: "Jeera Rice", description: "Steamed basmati rice tempered with cumin.", price: null, veg: true },
+  { id: 17, category: "Rice", name: "Veg Pulao", description: "Fragrant basmati rice cooked with mixed vegetables and whole spices.", price: null, veg: true },
+  { id: 18, category: "Breads", name: "Butter Naan", description: "Soft tandoor-baked bread finished with butter.", price: null, veg: true, featured: true },
+  { id: 19, category: "Breads", name: "Garlic Naan", description: "Tandoor-baked naan topped with fresh garlic and coriander.", price: null, veg: true },
+  { id: 20, category: "Breads", name: "Laccha Paratha", description: "Layered, flaky whole-wheat paratha cooked on the tawa.", price: null, veg: true },
+  { id: 21, category: "Beverages", name: "Sweet Lassi", description: "A chilled, traditional sweetened yogurt drink.", price: null, veg: true },
+  { id: 22, category: "Beverages", name: "Masala Chaas", description: "Spiced buttermilk finished with fresh curry leaves.", price: null, veg: true },
+  { id: 23, category: "Desserts", name: "Gulab Jamun", description: "Warm milk-solid dumplings soaked in a light sugar syrup.", price: null, veg: true },
+  { id: 24, category: "Desserts", name: "Kheer", description: "Traditional rice pudding slow-cooked with milk and cardamom.", price: null, veg: true }
+];
+
+const menuCategoryOrder = ["All","Soups","Starters","Chinese","Main Course","Paneer","Dal","Rice","Breads","Beverages","Desserts"];
+
+/* ============================= DISHES (SIGNATURE) ============================= */
+const signatureDishes = [
+  { name: "Handi Paneer", category: "Paneer", desc: "Rich, aromatic paneer preparation with a comforting North Indian character.", img: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=700&q=80" },
+  { name: "Paneer Chilli", category: "Chinese", desc: "Pan-seared paneer tossed with peppers and onions in a bold chilli sauce.", img: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=700&q=80" },
+  { name: "Butter Naan", category: "Breads", desc: "Soft tandoor-baked bread finished with butter, served warm.", img: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80" }
+];
+
+/* ============================= REVIEWS ============================= */
+const reviews = [
+  { name: "Guest Review", rating: 5, text: "A comfortable place for a family meal — the paneer dishes stood out and service was attentive throughout.", source: "Google", verified: true },
+  { name: "Guest Review", rating: 4, text: "Convenient stop along the highway with a solid vegetarian menu and quick service.", source: "Google", verified: true },
+  { name: "Guest Review", rating: 5, text: "Good spread of North Indian and Chinese options, and the staff were genuinely welcoming.", source: "Google", verified: true },
+  { name: "Guest Review", rating: 4, text: "Clean, spacious seating and food that came out hot and fresh — worked well for our group.", source: "Google", verified: true },
+  { name: "Guest Review", rating: 5, text: "Reliable choice in Phaphamau for a relaxed vegetarian dinner with the family.", source: "Google", verified: true },
+  { name: "Guest Review", rating: 4, text: "Reasonable prices and a menu with enough variety to keep everyone at the table happy.", source: "Google", verified: true }
+];
+
+/* ============================= GALLERY DATA ============================= */
+const galleryData = [
+  { category: "food", image: "https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=700&q=80", alt: "Handi Paneer served at RP Restaurant" },
+  { category: "interior", image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=700&q=80", alt: "Dining interior at RP Restaurant" },
+  { category: "food", image: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80", alt: "Fresh baked naan bread" },
+  { category: "ambience", image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=700&q=80", alt: "Warm plated dishes on the table" },
+  { category: "food", image: "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&fit=crop&w=700&q=80", alt: "Paneer Chilli starter" },
+  { category: "exterior", image: "https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=700&q=80", alt: "Highway-side restaurant exterior" },
+  { category: "interior", image: "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=700&q=80", alt: "Comfortable restaurant seating" },
+  { category: "ambience", image: "https://images.unsplash.com/photo-1529543544282-ea669407fca3?auto=format&fit=crop&w=700&q=80", alt: "Family dining together" },
+  { category: "food", image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=700&q=80" , alt: "Dal and rice thali spread" },
+  { category: "interior", image: "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=700&q=80", alt: "Warm restaurant lighting and seating" }
+];
+
+/* ============================= MAPS URL ============================= */
+const mapsUrl = restaurantData.googleMapsUrl ||
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurantData.address)}`;
+
+document.querySelectorAll('#nav-directions,#hero-directions,#map-directions,#location-directions,#cta-directions,#footer-directions,#bar-directions,#mobile-directions')
+  .forEach(el => { if (el) el.href = mapsUrl; });
+
+/* ============================= LOADER ============================= */
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  setTimeout(() => { loader.classList.add('hidden'); }, 450);
+});
+// Safety net in case 'load' is slow to fire
+setTimeout(() => { document.getElementById('loader').classList.add('hidden'); }, 2500);
+
+/* ============================= YEAR / SINCE ============================= */
+document.getElementById('year').textContent = new Date().getFullYear();
+if (restaurantData.establishedYear) {
+  const since = document.getElementById('since-line');
+  since.textContent = `Serving guests since ${restaurantData.establishedYear}`;
+  since.hidden = false;
+  const footerSince = document.getElementById('footer-since');
+  footerSince.textContent = `Serving guests since ${restaurantData.establishedYear}`;
+  footerSince.hidden = false;
+}
+
+/* ============================= NAVBAR SCROLL ============================= */
+const navbar = document.getElementById('navbar');
+function onScrollNav(){
+  navbar.classList.toggle('scrolled', window.scrollY > 40);
+}
+onScrollNav();
+window.addEventListener('scroll', onScrollNav, { passive: true });
+
+/* ============================= MOBILE MENU ============================= */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+function closeMobileMenu(){
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded','false');
+  mobileMenu.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+function openMobileMenu(){
+  hamburger.classList.add('open');
+  hamburger.setAttribute('aria-expanded','true');
+  mobileMenu.classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
+});
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
+mobileMenu.addEventListener('click', (e) => { if (e.target === mobileMenu) closeMobileMenu(); });
+
+/* ============================= SMOOTH SCROLL W/ OFFSET ============================= */
+document.querySelectorAll('a[href^="#"]').forEach(link => {
+  link.addEventListener('click', function(e){
+    const targetId = this.getAttribute('href');
+    if (targetId.length <= 1) return;
+    const target = document.querySelector(targetId);
+    if (!target) return;
+    e.preventDefault();
+    const navH = document.getElementById('navbar').offsetHeight;
+    const top = target.getBoundingClientRect().top + window.pageYOffset - navH + 1;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+
+/* ============================= ACTIVE NAV LINK ============================= */
+const sections = document.querySelectorAll('main section[id], #hero');
+const navA = document.querySelectorAll('.nav-links a');
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      const id = entry.target.getAttribute('id');
+      navA.forEach(a => a.classList.toggle('active', a.getAttribute('data-section') === id));
+    }
+  });
+}, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+sections.forEach(s => navObserver.observe(s));
+
+/* ============================= SCROLL REVEAL ============================= */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ============================= IMAGE FALLBACK ============================= */
+document.querySelectorAll('img').forEach(img => {
+  img.addEventListener('error', function(){
+    if (this.dataset.fallbackApplied) return;
+    this.dataset.fallbackApplied = '1';
+    this.classList.add('img-fallback');
+    this.src = images.fallback;
+  }, { once: true });
+});
+
+/* ============================= RENDER: SIGNATURE DISHES ============================= */
+const dishScroller = document.getElementById('dish-scroller');
+dishScroller.innerHTML = signatureDishes.map(d => `
+  <div class="dish-card reveal fade-up">
+    <div class="dish-media">
+      <img src="${d.img}" alt="${d.name} at RP Restaurant" loading="lazy" decoding="async">
+      <span class="dish-veg" aria-label="Vegetarian"></span>
+    </div>
+    <div class="dish-body">
+      <span class="dish-cat">${d.category}</span>
+      <h4>${d.name}</h4>
+      <p>${d.desc}</p>
+      <div class="dish-foot">
+        <span class="dish-price na">Price on request</span>
+        <span class="dish-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </div>
+  </div>
+`).join('');
+dishScroller.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+dishScroller.querySelectorAll('img').forEach(img => img.addEventListener('error', function(){
+  if (this.dataset.fallbackApplied) return;
+  this.dataset.fallbackApplied = '1';
+  this.classList.add('img-fallback');
+  this.src = images.fallback;
+}, { once: true }));
+
+/* ============================= MENU: TABS + RENDER + FILTER + SEARCH ============================= */
+const menuTabsEl = document.getElementById('menu-tabs');
+const menuGridEl = document.getElementById('menu-grid');
+const menuEmptyEl = document.getElementById('menu-empty');
+const menuSearchInput = document.getElementById('menu-search');
+const menuSearchWrap = document.getElementById('menu-search-wrap');
+const menuSearchClear = document.getElementById('menu-search-clear');
+
+let activeCategory = 'All';
+let searchTerm = '';
+
+const presentCategories = menuCategoryOrder.filter(c => c === 'All' || menuData.some(m => m.category === c));
+
+menuTabsEl.innerHTML = presentCategories.map((cat, i) => `
+  <button class="menu-tab ${cat === 'All' ? 'active' : ''}" role="tab" aria-selected="${cat === 'All'}" data-cat="${cat}">${cat}</button>
+`).join('');
+
+function renderMenu(){
+  const term = searchTerm.trim().toLowerCase();
+  const filtered = menuData.filter(item => {
+    const matchesCat = activeCategory === 'All' || item.category === activeCategory;
+    const matchesSearch = !term || item.name.toLowerCase().includes(term) || item.description.toLowerCase().includes(term) || item.category.toLowerCase().includes(term);
+    return matchesCat && matchesSearch;
+  });
+
+  if (filtered.length === 0){
+    menuGridEl.innerHTML = '';
+    menuEmptyEl.classList.add('show');
+    return;
+  }
+  menuEmptyEl.classList.remove('show');
+
+  menuGridEl.innerHTML = filtered.map(item => `
+    <div class="menu-item ${item.featured ? 'featured' : ''}">
+      <div class="mi-left">
+        <h5>${item.veg ? '<span class="mi-veg" aria-label="Vegetarian"></span>' : ''}${item.name}</h5>
+        <p>${item.description}</p>
+      </div>
+      <div class="mi-price ${item.price ? '' : 'na'}">${item.price ? '₹' + item.price : 'On request'}</div>
+    </div>
+  `).join('');
+}
+renderMenu();
+
+menuTabsEl.addEventListener('click', (e) => {
+  const btn = e.target.closest('.menu-tab');
+  if (!btn) return;
+  activeCategory = btn.dataset.cat;
+  menuTabsEl.querySelectorAll('.menu-tab').forEach(t => {
+    const isActive = t === btn;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive);
+  });
+  renderMenu();
+});
+
+menuSearchInput.addEventListener('input', (e) => {
+  searchTerm = e.target.value;
+  menuSearchWrap.classList.toggle('has-text', searchTerm.length > 0);
+  renderMenu();
+});
+menuSearchClear.addEventListener('click', () => {
+  searchTerm = '';
+  menuSearchInput.value = '';
+  menuSearchWrap.classList.remove('has-text');
+  renderMenu();
+  menuSearchInput.focus();
+});
+
+/* ============================= REVIEWS ============================= */
+document.getElementById('rating-big').textContent = restaurantData.rating.toFixed(1);
+document.getElementById('rating-count').textContent = `${restaurantData.reviewCount} public reviews`;
+document.getElementById('trust-rating').textContent = restaurantData.rating.toFixed(1) + '★';
+document.getElementById('trust-reviews').textContent = restaurantData.reviewCount;
+
+const reviewTrack = document.getElementById('review-track');
+reviewTrack.innerHTML = reviews.map(r => `
+  <div class="review-card">
+    <div class="stars" aria-hidden="true">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+    <p class="quote">${r.text}</p>
+    <div class="review-foot">
+      <span>${r.source}</span>
+      ${r.verified ? '<span class="verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Verified</span>' : ''}
+    </div>
+  </div>
+`).join('');
+
+let reviewsPerView = 3;
+function getReviewsPerView(){
+  const w = window.innerWidth;
+  if (w <= 620) return 1;
+  if (w <= 900) return 2;
+  return 3;
+}
+let reviewIndex = 0;
+const reviewDotsEl = document.getElementById('review-dots');
+function totalReviewPages(){ return Math.max(1, reviews.length - reviewsPerView + 1); }
+
+function buildReviewDots(){
+  const pages = totalReviewPages();
+  reviewDotsEl.innerHTML = Array.from({length: pages}).map((_, i) =>
+    `<button class="review-dot ${i === reviewIndex ? 'active' : ''}" data-i="${i}" aria-label="Go to review page ${i+1}"></button>`
+  ).join('');
+}
+function updateReviewTrack(){
+  const cardWidth = reviewTrack.children[0] ? reviewTrack.children[0].getBoundingClientRect().width + 24 : 0;
+  reviewTrack.style.transform = `translateX(-${reviewIndex * cardWidth}px)`;
+  reviewDotsEl.querySelectorAll('.review-dot').forEach((d, i) => d.classList.toggle('active', i === reviewIndex));
+}
+function setReviewsPerView(){
+  reviewsPerView = getReviewsPerView();
+  reviewIndex = Math.min(reviewIndex, totalReviewPages() - 1);
+  buildReviewDots();
+  updateReviewTrack();
+}
+setReviewsPerView();
+window.addEventListener('resize', setReviewsPerView);
+
+document.getElementById('review-prev').addEventListener('click', () => {
+  reviewIndex = reviewIndex <= 0 ? totalReviewPages() - 1 : reviewIndex - 1;
+  buildReviewDots(); updateReviewTrack(); resetAutoSlide();
+});
+document.getElementById('review-next').addEventListener('click', () => {
+  reviewIndex = reviewIndex >= totalReviewPages() - 1 ? 0 : reviewIndex + 1;
+  buildReviewDots(); updateReviewTrack(); resetAutoSlide();
+});
+reviewDotsEl.addEventListener('click', (e) => {
+  const btn = e.target.closest('.review-dot');
+  if (!btn) return;
+  reviewIndex = parseInt(btn.dataset.i, 10);
+  buildReviewDots(); updateReviewTrack(); resetAutoSlide();
+});
+
+let autoSlideTimer = null;
+function startAutoSlide(){
+  autoSlideTimer = setInterval(() => {
+    reviewIndex = reviewIndex >= totalReviewPages() - 1 ? 0 : reviewIndex + 1;
+    buildReviewDots(); updateReviewTrack();
+  }, 5500);
+}
+function resetAutoSlide(){ clearInterval(autoSlideTimer); startAutoSlide(); }
+startAutoSlide();
+
+const reviewWrap = document.querySelector('.review-track-wrap');
+reviewWrap.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+reviewWrap.addEventListener('mouseleave', startAutoSlide);
+reviewWrap.addEventListener('touchstart', () => clearInterval(autoSlideTimer), { passive: true });
+reviewWrap.addEventListener('touchend', startAutoSlide);
+
+/* ============================= GALLERY ============================= */
+const galleryFiltersEl = document.getElementById('gallery-filters');
+const galleryGridEl = document.getElementById('gallery-grid');
+const galleryCats = ['All', ...Array.from(new Set(galleryData.map(g => g.category)))];
+
+galleryFiltersEl.innerHTML = galleryCats.map(c => `
+  <button class="gallery-filter ${c === 'All' ? 'active' : ''}" data-cat="${c}">${c.charAt(0).toUpperCase() + c.slice(1)}</button>
+`).join('');
+
+galleryGridEl.innerHTML = galleryData.map((g, i) => `
+  <div class="gallery-item reveal scale" data-cat="${g.category}" data-index="${i}" tabindex="0" role="button" aria-label="View image: ${g.alt || g.category}">
+    <img src="${g.image}" alt="${g.alt || ''}" loading="lazy" decoding="async">
+    <div class="gallery-overlay"><span>${g.category}</span></div>
+  </div>
+`).join('');
+galleryGridEl.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+galleryGridEl.querySelectorAll('img').forEach(img => img.addEventListener('error', function(){
+  if (this.dataset.fallbackApplied) return;
+  this.dataset.fallbackApplied = '1';
+  this.classList.add('img-fallback');
+  this.src = images.fallback;
+}, { once: true }));
+
+galleryFiltersEl.addEventListener('click', (e) => {
+  const btn = e.target.closest('.gallery-filter');
+  if (!btn) return;
+  const cat = btn.dataset.cat;
+  galleryFiltersEl.querySelectorAll('.gallery-filter').forEach(f => f.classList.toggle('active', f === btn));
+  galleryGridEl.querySelectorAll('.gallery-item').forEach(item => {
+    item.classList.toggle('hide', cat !== 'All' && item.dataset.cat !== cat);
+  });
+});
+
+/* ============================= LIGHTBOX ============================= */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+let currentGalleryIndex = 0;
+
+function visibleGalleryItems(){
+  return Array.from(galleryGridEl.querySelectorAll('.gallery-item')).filter(el => !el.classList.contains('hide'));
+}
+function openLightbox(index){
+  const items = visibleGalleryItems();
+  const el = items.find(i => parseInt(i.dataset.index, 10) === index) || items[0];
+  if (!el) return;
+  currentGalleryIndex = items.indexOf(el);
+  showLightboxImage(items);
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('no-scroll');
+}
+function showLightboxImage(items){
+  const el = items[currentGalleryIndex];
+  const img = el.querySelector('img');
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+}
+function closeLightbox(){
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('no-scroll');
+}
+galleryGridEl.addEventListener('click', (e) => {
+  const item = e.target.closest('.gallery-item');
+  if (!item) return;
+  openLightbox(parseInt(item.dataset.index, 10));
+});
+galleryGridEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' '){
+    const item = e.target.closest('.gallery-item');
+    if (!item) return;
+    e.preventDefault();
+    openLightbox(parseInt(item.dataset.index, 10));
+  }
+});
+document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+document.getElementById('lightbox-prev').addEventListener('click', () => {
+  const items = visibleGalleryItems();
+  currentGalleryIndex = currentGalleryIndex <= 0 ? items.length - 1 : currentGalleryIndex - 1;
+  showLightboxImage(items);
+});
+document.getElementById('lightbox-next').addEventListener('click', () => {
+  const items = visibleGalleryItems();
+  currentGalleryIndex = currentGalleryIndex >= items.length - 1 ? 0 : currentGalleryIndex + 1;
+  showLightboxImage(items);
+});
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') document.getElementById('lightbox-prev').click();
+  if (e.key === 'ArrowRight') document.getElementById('lightbox-next').click();
+});
+// basic swipe support
+let touchStartX = 0;
+lightbox.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+lightbox.addEventListener('touchend', (e) => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 40){
+    if (dx > 0) document.getElementById('lightbox-prev').click();
+    else document.getElementById('lightbox-next').click();
+  }
+});
+
+/* ============================= OPENING HOURS STATUS ============================= */
+function updateOpeningStatus(){
+  const now = new Date();
+  const day = now.getDay();
+  const hours = restaurantData.openingHours[day];
+  const hoursEl = document.getElementById('hours-status');
+  if (!hours){ hoursEl.textContent = 'Closed'; hoursEl.className = 'hours-status closed'; return; }
+  const nowDecimal = now.getHours() + now.getMinutes() / 60;
+  const isOpen = nowDecimal >= hours.open && nowDecimal < hours.close;
+  hoursEl.textContent = isOpen ? 'Open Now' : 'Closed';
+  hoursEl.className = 'hours-status ' + (isOpen ? 'open' : 'closed');
+}
+updateOpeningStatus();
+setInterval(updateOpeningStatus, 60000);
+
+/* ============================= BACK TO TOP ============================= */
+const backToTop = document.getElementById('back-to-top');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('show', window.scrollY > 600);
+}, { passive: true });
+backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+/* ============================= MOUSE PARALLAX (desktop only) ============================= */
+if (window.matchMedia('(min-width: 981px)').matches && window.matchMedia('(hover: hover)').matches){
+  const heroImg = document.getElementById('hero-img');
+  const hero = document.getElementById('hero');
+  hero.addEventListener('mousemove', (e) => {
+    const rect = hero.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 14;
+    const y = ((e.clientY - rect.top) / rect.height - 0.5) * 14;
+    heroImg.style.transform = `translate(${x * -1}px, ${y * -1}px) scale(1.08)`;
+  });
+  hero.addEventListener('mouseleave', () => { heroImg.style.transform = ''; });
+}
+
+})();
 </script>
-<!-- firebase-listeners.js and script.js are loaded as external (if present) -->
-<script src="firebase-listeners.js" type="module"></script>
-<script src="script.js"></script>
+
 </body>
 </html>
