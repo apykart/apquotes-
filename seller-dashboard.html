@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1">
+<title>Apykart Seller Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---- Color system ----
+     Ink      : deep indigo-navy — trust, authority, "after-hours founder desk"
+     Indigo   : primary action color — calm confidence, not another generic blue
+     Marigold : the one warm accent — Indian retail energy, used ONLY for money/CTA highlights
+     Emerald  : growth / earnings — every rupee the seller makes is green, deliberately
+     Coral    : reserved strictly for destructive / urgent states
+  */
+  --ink:#14123B; --ink-2:#1D1A52;
+  --indigo:#4338CA; --indigo-dark:#332C9E; --indigo-light:#EEF0FE;
+  --marigold:#F5A623; --marigold-dark:#DA8A0A; --marigold-light:#FFF4E0;
+  --emerald:#0FA36D; --emerald-light:#E3F8EF;
+  --coral:#E5484D; --coral-light:#FDEBEC;
+  --cloud:#F5F6FB; --card:#FFFFFF;
+  --border:#E8E8F3; --text:#161433; --muted:#6E6B8A; --muted-2:#A3A0BF;
+  --radius:16px; --radius-sm:11px; --radius-lg:22px;
+  --font-d:'Sora',system-ui,sans-serif; --font-b:'Inter',system-ui,sans-serif;
+  --header-h:0px; --bottomnav-h:64px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;min-height:100dvh;background:var(--cloud);color:var(--text);font-family:var(--font-b);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{text-decoration:none;color:inherit}
+svg{display:block;flex-shrink:0}
+::-webkit-scrollbar{width:0;height:0}
+
+#app{max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;background:var(--cloud);position:relative}
+
+/* ============ ACCESS GATE ============ */
+#gate{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff;text-align:center;padding:24px}
+#gate .mark{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--marigold),var(--indigo));display:flex;align-items:center;justify-content:center}
+#gate h1{font-family:var(--font-d);font-size:18px;font-weight:700;margin:6px 0 0}
+#gate p{font-size:13px;color:rgba(255,255,255,.6);max-width:280px;line-height:1.6;margin:0}
+#gate button{margin-top:10px;background:var(--marigold);color:#221200;font-weight:700;font-size:13px;padding:12px 22px;border-radius:99px}
+#gate .spin{width:26px;height:26px;border:3px solid rgba(255,255,255,.2);border-top-color:var(--marigold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ HEADER (greeting) ============ */
+.hero{background:linear-gradient(160deg,var(--ink) 0%,var(--ink-2) 60%,#2A2470 100%);padding:18px 18px 46px;position:relative;overflow:hidden;flex-shrink:0}
+.hero::before{content:'';position:absolute;top:-40px;right:-30px;width:160px;height:160px;background:rgba(245,166,35,.10);border-radius:50%}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:1}
+.hero-back{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#fff}
+.hero-bell{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#fff;position:relative}
+.hero-bell .dot{position:absolute;top:6px;right:7px;width:6px;height:6px;background:var(--marigold);border-radius:50%}
+.hero-greet{display:flex;align-items:center;gap:10px;margin-top:16px;position:relative;z-index:1}
+.hero-greet .gicon{width:38px;height:38px;border-radius:12px;background:rgba(245,166,35,.16);display:flex;align-items:center;justify-content:center;color:var(--marigold);flex-shrink:0}
+.hero-greet-text .g-line{font-size:12.5px;color:rgba(255,255,255,.6);font-weight:600}
+.hero-greet-text .g-name{font-family:var(--font-d);font-size:19px;font-weight:700;color:#fff;margin-top:1px}
+.hero-status{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;padding:4px 10px 4px 8px;border-radius:99px;margin-top:12px;position:relative;z-index:1}
+.hero-status.live{background:rgba(15,163,109,.18);color:#5FE6B5}
+.hero-status.pending{background:rgba(245,166,35,.18);color:var(--marigold)}
+.hero-status .pulse{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.crumb-trail{display:flex;align-items:center;gap:5px;margin-top:10px;font-size:10.5px;color:rgba(255,255,255,.4);font-weight:600;position:relative;z-index:1}
+.crumb-trail b{color:rgba(255,255,255,.75)}
+
+.hero-card{background:var(--card);border-radius:var(--radius-lg);margin:-30px 14px 0;padding:16px;position:relative;z-index:2;box-shadow:0 14px 30px -12px rgba(20,18,59,.25)}
+.hero-card-top{display:flex;justify-content:space-between;align-items:flex-start}
+.hero-card-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.hero-card-amt{font-family:var(--font-d);font-size:27px;font-weight:700;color:var(--text);margin-top:3px}
+.hero-card-amt span{color:var(--emerald)}
+.hero-chip{font-size:10.5px;font-weight:800;background:var(--emerald-light);color:var(--emerald);padding:4px 9px;border-radius:99px}
+.hero-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.hero-mini{text-align:center;padding:9px 4px;border-radius:12px;background:var(--cloud)}
+.hero-mini b{display:block;font-size:14.5px;font-weight:800;color:var(--text)}
+.hero-mini span{font-size:9.5px;color:var(--muted);font-weight:600}
+
+/* ============ CONTENT ============ */
+.content{padding:16px 14px calc(20px + var(--bottomnav-h));flex:1}
+.screen{display:none;animation:fadein .18s ease}
+.screen.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+.screen-header{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.back-btn{width:34px;height:34px;border-radius:10px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text);flex-shrink:0}
+.screen-header h2{font-family:var(--font-d);font-size:16.5px;font-weight:700;margin:0}
+.screen-header .id-tag{font-size:11px;color:var(--muted);margin-top:1px;font-weight:600}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px}
+.stat-card{display:flex;flex-direction:column;gap:5px}
+.stat-card .ic{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:2px}
+.stat-card .num{font-family:var(--font-d);font-size:19px;font-weight:700}
+.stat-card .lbl{font-size:11px;color:var(--muted);font-weight:600}
+
+.qa-tile{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px 8px;text-align:center}
+.qa-tile .ic{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin:0 auto 7px}
+.qa-tile b{display:block;font-size:11.5px;font-weight:700}
+.qa-tile span{font-size:9.5px;color:var(--muted);font-weight:600}
+
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:99px}
+.badge.processing,.badge.pending{background:var(--marigold-light);color:var(--marigold-dark)}
+.badge.paid,.badge.delivered,.badge.live,.badge.approved,.badge.completed,.badge.active{background:var(--emerald-light);color:var(--emerald)}
+.badge.shipped,.badge.new,.badge.requested{background:var(--indigo-light);color:var(--indigo)}
+.badge.cancelled,.badge.rejected,.badge.outofstock,.badge.failed{background:var(--coral-light);color:var(--coral)}
+.badge.lowstock{background:var(--marigold-light);color:var(--marigold-dark)}
+.badge.pickedup{background:var(--indigo-light);color:var(--indigo-dark)}
+
+.row-card{display:flex;gap:11px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;align-items:center}
+.row-thumb{width:44px;height:44px;border-radius:11px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.row-body{flex:1;min-width:0}
+.row-top{display:flex;justify-content:space-between;gap:8px}
+.row-id{font-weight:700;font-size:12.5px}
+.row-time{font-size:10.5px;color:var(--muted-2);flex-shrink:0}
+.row-mid{font-size:12px;color:var(--muted);margin-top:2px}
+.row-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.row-price{font-weight:700;font-size:13px}
+
+.detail-block{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:11px}
+.detail-block h4{margin:0 0 11px;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:800}
+.kv-row{display:flex;justify-content:space-between;padding:7px 0;font-size:12.5px;border-bottom:1px solid var(--border)}
+.kv-row:last-child{border-bottom:none}
+.kv-row span:first-child{color:var(--muted)}
+.kv-row b{font-weight:700}
+.kv-row.total b{color:var(--emerald);font-size:14px}
+
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{display:flex;gap:11px;padding-bottom:16px;position:relative}
+.timeline li:last-child{padding-bottom:0}
+.timeline li::before{content:'';position:absolute;left:9px;top:20px;bottom:0;width:2px;background:var(--border)}
+.timeline li:last-child::before{display:none}
+.t-dot{width:18px;height:18px;border-radius:50%;background:var(--border);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1}
+.timeline li.done .t-dot{background:var(--emerald)}
+.timeline li.current .t-dot{background:var(--indigo)}
+.t-body b{display:block;font-size:12.5px}
+.t-body span{font-size:10.5px;color:var(--muted-2)}
+
+.btn{border:none;border-radius:12px;padding:13px 16px;font-weight:800;font-size:13px;width:100%;display:flex;align-items:center;justify-content:center;gap:7px}
+.btn-primary{background:var(--indigo);color:#fff}
+.btn-cta{background:var(--marigold);color:#241300}
+.btn-danger{background:var(--coral);color:#fff}
+.btn-outline{background:var(--card);color:var(--text);border:1px solid var(--border)}
+.btn-success{background:var(--emerald);color:#fff}
+.btn-row{display:flex;gap:9px}
+
+.select-field,.text-field{width:100%;padding:11px 12px;border:1px solid var(--border);border-radius:11px;font-size:13px;background:var(--card);color:var(--text);margin-bottom:13px;outline:none}
+.select-field:focus,.text-field:focus{border-color:var(--indigo)}
+textarea.text-field{resize:vertical;min-height:74px}
+.field-label{font-size:11.5px;font-weight:800;color:var(--muted);margin-bottom:6px;display:block}
+.field-hint{font-size:10px;color:var(--muted-2);margin:-9px 0 12px}
+.field-row{display:flex;gap:9px}
+.field-row .field-col{flex:1}
+
+.status-step{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--border)}
+.status-step:last-child{border-bottom:none}
+.step-check{width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted-2);font-size:11px;font-weight:800}
+.status-step.done .step-check{background:var(--emerald);border-color:var(--emerald);color:#fff}
+.status-step b{display:block;font-size:12.5px}
+.status-step span{font-size:11px;color:var(--muted)}
+.status-step button{margin-top:8px;background:var(--indigo-light);color:var(--indigo-dark);padding:7px 13px;border-radius:8px;font-size:11px;font-weight:800}
+
+.photo-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:13px}
+.photo-thumb{width:60px;height:60px;border-radius:10px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.photo-thumb img{width:100%;height:100%;object-fit:cover}
+.photo-thumb .rm{position:absolute;top:2px;right:2px;width:17px;height:17px;background:rgba(0,0,0,.55);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff}
+.photo-add{width:60px;height:60px;border-radius:10px;border:2px dashed var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted-2)}
+
+.calc-box{background:var(--indigo-light);border:1px solid #D9DBFA;border-radius:12px;padding:13px;margin-bottom:15px}
+.calc-title{font-size:11.5px;font-weight:800;color:var(--indigo-dark);margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.calc-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0}
+.calc-row span:first-child{color:var(--muted)}
+.calc-row.deduct span:last-child{color:var(--coral);font-weight:700}
+.calc-row.final{border-top:1px solid #D9DBFA;margin-top:5px;padding-top:8px}
+.calc-row.final span:first-child{font-weight:800;color:var(--text)}
+.calc-row.final span:last-child{font-weight:900;color:var(--emerald);font-size:14px}
+
+.platform-fee-box{background:var(--cloud);border-radius:10px;padding:11px 13px;margin-bottom:15px;display:flex;justify-content:space-between;align-items:center}
+.platform-fee-box .lbl{font-size:12px;font-weight:800}
+.platform-fee-box .val{font-size:12px;font-weight:800;color:var(--muted)}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(20,18,59,.5);display:none;align-items:flex-end;justify-content:center;z-index:200}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:20px 20px 0 0;padding:22px;max-width:480px;width:100%;box-shadow:0 -10px 40px rgba(0,0,0,.2)}
+.modal-box.center{border-radius:18px;text-align:center;margin:auto;max-width:340px}
+.modal-box .ic{width:50px;height:50px;border-radius:50%;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;margin:0 auto 10px}
+.modal-box .ic.danger{background:var(--coral-light);color:var(--coral)}
+.modal-box .ic.success{background:var(--emerald-light);color:var(--emerald)}
+.modal-box h3{margin:0 0 7px;font-size:15px;font-family:var(--font-d)}
+.modal-box p{margin:0 0 16px;font-size:12px;color:var(--muted)}
+
+.toast{position:fixed;bottom:calc(20px + var(--bottomnav-h));left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-size:12.5px;display:flex;align-items:center;gap:9px;opacity:0;pointer-events:none;transition:.25s;z-index:300;max-width:92vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .ic{color:var(--emerald);flex-shrink:0}
+
+.list-toolbar{display:flex;gap:9px;margin-bottom:11px}
+.search-box{flex:1;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--border);border-radius:11px;padding:10px 12px}
+.search-box input{border:none;outline:none;flex:1;font-size:12.5px;background:transparent;color:var(--text)}
+.chip-btn{width:38px;height:38px;border-radius:11px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.filter-tabs{display:flex;gap:7px;overflow-x:auto;margin-bottom:11px}
+.ftab{flex-shrink:0;padding:7px 13px;border-radius:20px;font-size:11.5px;font-weight:700;background:var(--card);border:1px solid var(--border);color:var(--muted);white-space:nowrap}
+.ftab.active{background:var(--indigo);border-color:var(--indigo);color:#fff}
+
+.action-banner{display:flex;align-items:center;justify-content:space-between;gap:9px;background:var(--marigold-light);border:1px solid #F5DFB0;border-radius:12px;padding:12px 14px;margin-bottom:13px;font-size:12px;color:#7A4E0B}
+.action-banner b{display:block;font-size:12.5px;color:#5E3B00}
+.action-banner button{background:var(--marigold);color:#241300;padding:8px 13px;border-radius:8px;font-size:11.5px;font-weight:800;white-space:nowrap}
+
+.profile-head{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 0 15px}
+.store-avatar{width:66px;height:66px;border-radius:20px;background:var(--indigo-light);color:var(--indigo-dark);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;margin-bottom:9px;font-family:var(--font-d)}
+.profile-head h3{margin:2px 0;font-size:15px;font-family:var(--font-d)}
+.verified-tag{font-size:11px;color:var(--emerald);font-weight:700;display:flex;align-items:center;gap:4px}
+.profile-stats{display:flex;justify-content:center;gap:22px;margin-top:11px}
+.profile-stats div{text-align:center}
+.profile-stats b{display:block;font-size:14px;font-family:var(--font-d)}
+.profile-stats span{font-size:10.5px;color:var(--muted)}
+
+.menu-list{list-style:none;margin:0;padding:0}
+.menu-list li{display:flex;align-items:center;gap:11px;padding:12px 3px;border-bottom:1px solid var(--border)}
+.menu-list li:last-child{border-bottom:none}
+.menu-ic{width:36px;height:36px;border-radius:11px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.menu-list li b{display:block;font-size:12.5px}
+.menu-list li span{font-size:10.5px;color:var(--muted)}
+.chevron{margin-left:auto;color:var(--muted-2);flex-shrink:0}
+
+.avail-payout{background:linear-gradient(135deg,var(--emerald),#0C8A5D);border-radius:16px;padding:17px;color:#fff;margin-bottom:13px}
+.avail-payout span{font-size:11px;opacity:.85}
+.avail-payout .amt{font-family:var(--font-d);font-size:24px;font-weight:700;margin:4px 0 10px}
+.avail-payout button{margin-top:10px;background:#fff;color:var(--emerald);padding:10px 14px;border-radius:9px;font-weight:800;font-size:12px;width:100%}
+
+.doc-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.doc-row:last-child{border-bottom:none}
+.doc-row .ok{display:flex;align-items:center;gap:5px;color:var(--emerald);font-weight:700}
+
+.product-tile{display:flex;gap:11px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:11px;margin-bottom:8px;align-items:center}
+.p-thumb{width:46px;height:46px;border-radius:11px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.p-body{flex:1;min-width:0}
+.p-body b{font-size:12.5px;display:block}
+.p-body .sku{font-size:10px;color:var(--muted-2)}
+.p-meta{display:flex;justify-content:space-between;align-items:center;margin-top:5px}
+.dots-btn{color:var(--muted);padding:4px 6px}
+
+.toggle{width:40px;height:23px;border-radius:20px;background:var(--border);position:relative;flex-shrink:0}
+.toggle.on{background:var(--indigo)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;transition:.15s}
+.toggle.on::after{left:19px}
+
+.overview-list{list-style:none;margin:0;padding:0}
+.overview-list li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:12.5px}
+.overview-list li:last-child{border-bottom:none}
+.overview-list li .lbl-row{display:flex;align-items:center;gap:8px}
+.overview-list li .lbl-row svg{color:var(--muted)}
+.overview-list li b{background:var(--indigo-light);color:var(--indigo-dark);padding:2px 10px;border-radius:20px;font-size:11px}
+
+.stock-alert-card{display:flex;flex-direction:column;align-items:center;text-align:center;padding:26px 16px}
+.stock-alert-card .ic{width:58px;height:58px;border-radius:50%;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;margin-bottom:13px}
+.stock-alert-card.warn .ic{background:var(--marigold-light);color:var(--marigold-dark)}
+.stock-alert-card h3{margin:0 0 6px;font-size:14px;font-family:var(--font-d)}
+.stock-alert-card p{margin:0 0 15px;font-size:12px;color:var(--muted)}
+
+.empty-state{display:flex;flex-direction:column;align-items:center;text-align:center;padding:50px 20px}
+.empty-state .ic{width:58px;height:58px;border-radius:50%;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;margin-bottom:13px}
+.empty-state h3{margin:0 0 6px;font-size:14px;font-family:var(--font-d)}
+.empty-state p{margin:0 0 16px;font-size:12px;color:var(--muted);max-width:260px}
+.empty-state button{background:var(--indigo);color:#fff;padding:11px 20px;border-radius:10px;font-weight:800;font-size:12.5px}
+
+.bottom-nav{position:sticky;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:100}
+.bottom-nav-inner{display:flex;justify-content:space-around}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted-2);font-size:9.5px;font-weight:700;padding:5px 8px;border-radius:10px;flex:1}
+.bn-item.active{color:var(--indigo)}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="mark">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+  </div>
+  <div class="spin"></div>
+  <h1 id="gateTitle">Checking your seller account…</h1>
+  <p id="gateSub">This dashboard only opens for the signed-in, verified seller it belongs to.</p>
+  <button id="gateBtn" style="display:none" onclick="location.href='index.html'">Back to Apykart</button>
+</div>
+
+<div id="app" style="display:none">
+  <header class="hero">
+    <div class="hero-top">
+      <button class="hero-back" onclick="goBack()">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="hero-bell" onclick="toast('No new notifications')"><span class="dot"></span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+    </div>
+    <div class="hero-greet">
+      <div class="gicon" id="greetIcon"></div>
+      <div class="hero-greet-text">
+        <div class="g-line" id="greetLine">Good morning</div>
+        <div class="g-name" id="greetName">Seller</div>
+      </div>
+    </div>
+    <div class="hero-status live" id="heroStatus"><span class="pulse"></span> Store is live</div>
+    <div class="crumb-trail" id="crumbTrail">Home</div>
+  </header>
+
+  <div id="heroCardSlot"></div>
+
+  <main class="content" id="content"></main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner" id="bottomNav"></div>
+  </nav>
+</div>
+
+<div class="modal-overlay" id="modalOverlay"><div class="modal-box" id="modalBox"></div></div>
+<div class="toast" id="toast"><span class="ic" id="toastIcon"></span><span id="toastMsg"></span></div>
+
+<script type="module">
+/* =====================================================================
+   SECURITY NOTE
+   This file shares the SAME Firebase project as the buyer app, so a
+   seller's signed-in session (Firebase Auth) carries over automatically
+   when both files live on the same domain — no tokens are ever put in
+   the URL. On load we require:
+     1) an active Firebase Auth session, AND
+     2) users/{uid}.seller_verification.status === 'approved'
+   If either check fails, the dashboard never renders — the person sees
+   only the access gate. All data reads below are additionally scoped
+   to request.auth.uid by the existing Firestore rules (see
+   /users/{uid} → allow read: if isOwner(uid) || isManager()), so even a
+   modified client can never read another seller's earnings, payouts,
+   or documents.
+===================================================================== */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, onSnapshot, collection, query, where } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB9wwF-K1AwN8xlrppiKELDXx0NxqJknbc",
+  authDomain: "apykart-916.firebaseapp.com",
+  projectId: "apykart-916",
+  storageBucket: "apykart-916.firebasestorage.app",
+  messagingSenderId: "787741109597",
+  appId: "1:787741109597:web:883a5eee5e9bb9602f8cb4"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+window._db = db; window._auth = auth; window._signOut = () => signOut(auth);
+window._fsHelpers = { db, doc, getDoc, onSnapshot, collection, query, where };
+
+onAuthStateChanged(auth, async (user) => {
+  const gate = document.getElementById('gate');
+  if (!user) {
+    document.getElementById('gateTitle').textContent = 'Sign in required';
+    document.getElementById('gateSub').textContent = 'Please sign in to Apykart first, then reopen your Seller Dashboard from your Profile.';
+    document.getElementById('gateBtn').style.display = 'block';
+    document.querySelector('#gate .spin').style.display = 'none';
+    return;
+  }
+  try {
+    const snap = await getDoc(doc(db, 'users', user.uid));
+    const d = snap.exists() ? snap.data() : {};
+    const status = d.seller_verification?.status || '';
+    if (status !== 'approved') {
+      document.getElementById('gateTitle').textContent = status === 'pending' ? 'Verification pending' : 'Not a verified seller yet';
+      document.getElementById('gateSub').textContent = status === 'pending'
+        ? 'Your seller application is still under review. You will get access the moment it is approved.'
+        : 'Apply to become a seller from your Apykart Profile to unlock this dashboard.';
+      document.getElementById('gateBtn').style.display = 'block';
+      document.querySelector('#gate .spin').style.display = 'none';
+      return;
+    }
+    window.SELLER_UID = user.uid;
+    window.SELLER_NAME = d.seller_verification?.brandName || d.profile?.name || user.displayName || 'Seller';
+    window.SELLER_PHOTO = user.photoURL || '';
+    gate.style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    window.dispatchEvent(new Event('seller-ready'));
+  } catch (e) {
+    document.getElementById('gateTitle').textContent = 'Could not verify your account';
+    document.getElementById('gateSub').textContent = 'Check your connection and try again.';
+    document.getElementById('gateBtn').style.display = 'block';
+    document.querySelector('#gate .spin').style.display = 'none';
+  }
+});
+</script>
+
+<script>
+/* ===================== ICONS ===================== */
+function icon(name,size){size=size||18;const P={
+  home:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  orders:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
+  returns:'<path d="M3 7v6h6"/><path d="M21 17a9 9 0 0 0-15-6.7L3 13"/>',
+  profile:'<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  package:'<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>',
+  plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  video:'<polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>',
+  barchart:'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+  search:'<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
+  filter:'<polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>',
+  chevronRight:'<polyline points="9 18 15 12 9 6"/>', chevronLeft:'<polyline points="15 18 9 12 15 6"/>',
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  checkCircle:'<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  xCircle:'<circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>',
+  trash:'<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+  edit:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  alertTriangle:'<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  star:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  wallet:'<path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/>',
+  bank:'<line x1="3" y1="21" x2="21" y2="21"/><line x1="5" y1="21" x2="5" y2="10"/><line x1="19" y1="21" x2="19" y2="10"/><path d="M2 10l10-6 10 6"/><line x1="9" y1="21" x2="9" y2="10"/><line x1="15" y1="21" x2="15" y2="10"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>',
+  truck:'<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+  store:'<path d="M3 9l1-5h16l1 5"/><path d="M3 9a2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0 2 2 0 0 0 4 0"/><path d="M4 9v10a1 1 0 0 0 1 1h4v-6h6v6h4a1 1 0 0 0 1-1V9"/>',
+  eye:'<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>',
+  box:'<path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/>',
+  layers:'<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>',
+  coin:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+  scale:'<path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h18"/>',
+  refresh:'<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  creditCard:'<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>',
+  mapPin:'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  dots:'<circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/>',
+  inbox:'<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  play:'<polygon points="5 3 19 12 5 21 5 3"/>',
+  clock:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  zap:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  droplet:'<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  cloudsun:'<path d="M12 2v2M4.93 4.93l1.41 1.41"/><path d="M18 10a4 4 0 0 0-7.94-.7A5 5 0 0 0 6 14a5 5 0 0 0 5 5h7a4 4 0 0 0 0-8 4 4 0 0 0-.06-1z"/>',
+  moon:'<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+};return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[name]||P.box}</svg>`;}
+
+const NAV=[{key:'home',label:'Home',ic:'home'},{key:'orders',label:'Orders',ic:'orders'},{key:'returns',label:'Returns',ic:'returns'},{key:'profile',label:'Profile',ic:'profile'}];
+const CATEGORY_OPTIONS=[{v:'mobiles',label:'Mobiles'},{v:'fashion',label:'Fashion'},{v:'shoes',label:'Shoes'},{v:'electronics',label:'Electronics'},{v:'audio',label:'Audio'},{v:'home',label:'Home'},{v:'beauty',label:'Beauty'},{v:'sports',label:'Sports'}];
+const SIZE_SETS={fashion:['XS','S','M','L','XL','XXL'],shoes:['6','7','8','9','10','11','12']};
+const COIN_TO_RUPEE=0.10;
+
+/* Demo data — replace with the same Firestore reads used elsewhere in the app,
+   scoped by `where('sellerId','==',window.SELLER_UID)` */
+let orders=[
+ {id:'APY10245',time:'Today, 10:42 AM',product:'Phone Cooler',sku:'PC-001',qty:1,price:599,mrp:799,ic:'package',customer:'Rahul Sharma',phone:'+91 98XXXXXX21',address:'Prayagraj, Uttar Pradesh',status:'Processing',pay:'Paid',deliveryFee:40,discount:-50,platformFee:-59,earning:530},
+ {id:'APY10244',time:'Today, 09:15 AM',product:'RGB Strip Light',sku:'RGB-002',qty:2,price:1198,mrp:1398,ic:'zap',customer:'Aman Verma',phone:'+91 97XXXXXX10',address:'Varanasi, Uttar Pradesh',status:'New',pay:'Paid',deliveryFee:0,discount:-40,platformFee:-79,earning:1079},
+ {id:'APY10243',time:'Yesterday, 08:30 PM',product:'Wireless Earbuds',sku:'WE-003',qty:1,price:899,mrp:999,ic:'droplet',customer:'Neha Singh',phone:'+91 99XXXXXX55',address:'Lucknow, Uttar Pradesh',status:'Shipped',pay:'Paid',deliveryFee:0,discount:-20,platformFee:-59,earning:820},
+ {id:'APY10242',time:'2 days ago',product:'Mobile Stand',sku:'MS-004',qty:1,price:299,mrp:349,ic:'layers',customer:'Rahul Gupta',phone:'+91 96XXXXXX30',address:'Kanpur, Uttar Pradesh',status:'Delivered',pay:'Paid',deliveryFee:0,discount:-10,platformFee:-19,earning:270},
+];
+let returns=[
+ {id:'APY30221',time:'Today, 11:32 AM',product:'Phone Cooler',sku:'PC-001',qty:1,price:599,ic:'package',customer:'Rahul Sharma',phone:'+91 98XXXXXX21',address:'Prayagraj, Uttar Pradesh',reason:'Product not working',status:'Requested',refundAmt:549,discount:-50},
+ {id:'APY30220',time:'Yesterday, 09:20 PM',product:'RGB Strip Light',sku:'RGB-002',qty:1,price:1198,ic:'zap',customer:'Aman Verma',status:'Approved',reason:'Wrong product'},
+ {id:'APY30219',time:'07:10 PM',product:'Wireless Earbuds',sku:'WE-003',qty:1,price:899,ic:'droplet',customer:'Neha Singh',status:'Picked Up',reason:'Sound issue'},
+];
+let products=[
+ {id:'PC-001',sku:'PC-001',name:'Phone Cooler',category:'mobiles',price:599,mrp:799,discount:25,stock:48,status:'Live',ic:'package',desc:'Keep your phone cool while gaming.',affiliateCommission:5,buyerCoinReward:50,weight:250},
+ {id:'RGB-002',sku:'RGB-002',name:'RGB Strip Light',category:'home',price:1198,mrp:1398,discount:15,stock:32,status:'Live',ic:'zap'},
+ {id:'WE-003',sku:'WE-003',name:'Wireless Earbuds',category:'audio',price:899,mrp:999,discount:10,stock:26,status:'Live',ic:'droplet'},
+ {id:'MS-004',sku:'MS-004',name:'Mobile Stand',category:'mobiles',price:299,mrp:349,discount:14,stock:5,status:'Low Stock',ic:'layers'},
+ {id:'SW-005',sku:'SW-005',name:'Smart Watch',category:'electronics',price:1499,mrp:1799,discount:17,stock:0,status:'Pending',ic:'clock'},
+ {id:'PB-006',sku:'PB-006',name:'Portable Blender',category:'home',price:1099,mrp:1299,discount:15,stock:0,status:'Out of Stock',ic:'droplet'},
+];
+let sellerEarnings=[
+ {id:'e1',order_id:'APY10242',product_name:'Mobile Stand',net_earning:243,status:'available',date:'2025-05-10'},
+ {id:'e2',order_id:'APY10243',product_name:'Wireless Earbuds',net_earning:738,status:'available',date:'2025-05-12'},
+ {id:'e3',order_id:'APY10244',product_name:'RGB Strip Light',net_earning:971,status:'pending',date:'2025-05-16'},
+];
+let withdrawalRequests=[];
+let sellerProfile={bankName:'HDFC Bank',accountNumber:'XXXXXXXX1234',ifsc:'HDFC0001234',upi:''};
+
+/* ===================== NAV HISTORY STACK (fixes back button) ===================== */
+let state={section:'home',screen:'dashboard',ctxId:null};
+let navStack=[]; // every entry the user actually visited, in order
+
+function badge(status){const map={'Processing':'processing','Pending':'pending','Paid':'paid','Delivered':'delivered','Live':'live','Approved':'approved','Completed':'completed','Active':'active','Shipped':'shipped','New':'new','Cancelled':'cancelled','Rejected':'rejected','Out of Stock':'outofstock','Failed':'failed','Low Stock':'lowstock','Requested':'requested','Picked Up':'pickedup'};const cls=map[status]||'new';return `<span class="badge ${cls}">${status}</span>`;}
+function thumb(p,cls){cls=cls||'row-thumb';return `<div class="${cls}">${icon(p.ic||'box',20)}</div>`;}
+function findOrder(id){return orders.find(o=>o.id===id);}
+function findReturn(id){return returns.find(r=>r.id===id);}
+function findProduct(id){return products.find(p=>p.id===id);}
+
+function renderNav(){
+  document.getElementById('bottomNav').innerHTML=NAV.map(n=>`
+    <button class="bn-item ${state.section===n.key?'active':''}" onclick="nav('${n.key}', defaultScreen('${n.key}'))">
+      ${icon(n.ic,19)}${n.label}
+    </button>`).join('');
+}
+function defaultScreen(section){return section==='home'?'dashboard':'home';}
+
+// nav() pushes the CURRENT state onto history before moving — so "back"
+// always lands exactly where the seller came from, never a hardcoded page.
+function nav(section,screen,ctxId,opts){
+  opts=opts||{};
+  if(!opts.replace && !opts.isBack){
+    navStack.push({...state});
+    if(navStack.length>40) navStack.shift();
+  }
+  state={section,screen,ctxId:ctxId||null};
+  renderNav(); render(); renderCrumbs();
+  window.scrollTo(0,0);
+}
+function goBack(){
+  if(navStack.length){
+    const prev=navStack.pop();
+    state=prev;
+    renderNav(); render(); renderCrumbs();
+    window.scrollTo(0,0);
+  } else {
+    // nothing left in history — this IS the true entry point
+    nav('home','dashboard',null,{replace:true});
+  }
+}
+function renderCrumbs(){
+  const el=document.getElementById('crumbTrail'); if(!el) return;
+  const titles={home:'Home',orders:'Orders',returns:'Returns',profile:'Profile'};
+  const path = navStack.slice(-1).map(s=>titles[s.section]||s.section);
+  path.push(`<b>${titles[state.section]||state.section}</b>`);
+  el.innerHTML = path.join(' <span style="opacity:.5">›</span> ');
+}
+function screenHeader(title,sub){
+  return `<div class="screen-header">
+    <button class="back-btn" onclick="goBack()">${icon('chevronLeft',17)}</button>
+    <div><h2>${title}</h2>${sub?`<div class="id-tag">${sub}</div>`:''}</div>
+  </div>`;
+}
+
+function render(){
+  const c=document.getElementById('content');
+  if(state.section==='home') c.innerHTML=renderHome();
+  else if(state.section==='orders') c.innerHTML=renderOrders();
+  else if(state.section==='returns') c.innerHTML=renderReturns();
+  else if(state.section==='profile') c.innerHTML=renderProfile();
+  updateHeroCard();
+}
+
+/* ===================== GREETING HEADER ===================== */
+function timeGreeting(){
+  const h=new Date().getHours();
+  if(h<5) return {text:'Working late',ic:'moon'};
+  if(h<12) return {text:'Good morning',ic:'sun'};
+  if(h<17) return {text:'Good afternoon',ic:'cloudsun'};
+  if(h<21) return {text:'Good evening',ic:'sun'};
+  return {text:'Good night',ic:'moon'};
+}
+function renderGreeting(){
+  const g=timeGreeting();
+  document.getElementById('greetLine').textContent=g.text+',';
+  document.getElementById('greetName').textContent=window.SELLER_NAME||'Seller';
+  document.getElementById('greetIcon').innerHTML=icon(g.ic,19);
+  const pendingCount=orders.filter(o=>o.status==='New'||o.status==='Processing').length;
+  const statusEl=document.getElementById('heroStatus');
+  if(pendingCount>0){
+    statusEl.className='hero-status pending';
+    statusEl.innerHTML=`<span class="pulse"></span> ${pendingCount} order${pendingCount>1?'s':''} need attention`;
+  } else {
+    statusEl.className='hero-status live';
+    statusEl.innerHTML='<span class="pulse"></span> All caught up';
+  }
+}
+function updateHeroCard(){
+  const slot=document.getElementById('heroCardSlot');
+  if(state.section!=='home' || state.screen!=='dashboard'){ slot.innerHTML=''; return; }
+  const available=sellerEarnings.filter(e=>e.status==='available').reduce((s,e)=>s+e.net_earning,0);
+  const pending=sellerEarnings.filter(e=>e.status==='pending').reduce((s,e)=>s+e.net_earning,0);
+  const live=products.filter(p=>p.status==='Live').length;
+  slot.innerHTML=`
+  <div class="hero-card">
+    <div class="hero-card-top">
+      <div><div class="hero-card-lbl">Available to withdraw</div><div class="hero-card-amt"><span>₹${available.toLocaleString()}</span></div></div>
+      <div class="hero-chip">+₹${pending.toLocaleString()} pending</div>
+    </div>
+    <div class="hero-mini-grid">
+      <div class="hero-mini"><b>${live}</b><span>Live products</span></div>
+      <div class="hero-mini"><b>${orders.length}</b><span>Orders</span></div>
+      <div class="hero-mini"><b>${returns.filter(r=>r.status==='Requested').length}</b><span>Returns due</span></div>
+    </div>
+  </div>`;
+}
+
+/* ===================== HOME ===================== */
+function renderHome(){
+  if(state.screen==='dashboard') return homeDashboard();
+  if(state.screen==='list') return productList();
+  if(state.screen==='detail') return productDetail(state.ctxId);
+  if(state.screen==='addProduct') return addProductForm(state.ctxId);
+  if(state.screen==='approvals') return approvalList();
+  if(state.screen==='approvalDetail') return approvalDetail(state.ctxId);
+  if(state.screen==='stock') return stockManage(state.ctxId);
+  if(state.screen==='videos') return manageVideos(state.ctxId);
+  if(state.screen==='uploadVideo') return uploadVideo(state.ctxId);
+  if(state.screen==='earnings') return earningsScreen();
+  if(state.screen==='withdraw') return withdrawScreen();
+  return homeDashboard();
+}
+function homeDashboard(){
+  const pending=products.filter(p=>p.status==='Pending').length;
+  const out=products.filter(p=>p.status==='Out of Stock').length;
+  const low=products.filter(p=>p.status==='Low Stock').length;
+  const live=products.filter(p=>p.status==='Live').length;
+  return `
+  <div class="grid-4" style="margin-bottom:14px">
+    <div class="qa-tile" onclick="nav('home','addProduct')"><div class="ic" style="background:var(--indigo-light);color:var(--indigo)">${icon('plus',16)}</div><b>Add</b><span>Product</span></div>
+    <div class="qa-tile" onclick="nav('home','videos','PC-001')"><div class="ic" style="background:var(--marigold-light);color:var(--marigold-dark)">${icon('video',16)}</div><b>Video</b><span>Upload</span></div>
+    <div class="qa-tile" onclick="nav('home','stock','MS-004')"><div class="ic" style="background:var(--emerald-light);color:var(--emerald)">${icon('barchart',16)}</div><b>Stock</b><span>Update</span></div>
+    <div class="qa-tile" onclick="nav('home','earnings')"><div class="ic" style="background:var(--indigo-light);color:var(--indigo)">${icon('wallet',16)}</div><b>Earnings</b><span>View</span></div>
+  </div>
+  <div class="detail-block">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px"><h4 style="margin:0">Product overview</h4><a onclick="nav('home','list')" style="font-size:11.5px;color:var(--indigo);font-weight:800">View all</a></div>
+    <ul class="overview-list">
+      <li><span class="lbl-row">${icon('checkCircle',15)} Live products</span><b>${live}</b></li>
+      <li><span class="lbl-row">${icon('clock',15)} Pending approval</span><b>${pending}</b></li>
+      <li><span class="lbl-row">${icon('xCircle',15)} Out of stock</span><b>${out}</b></li>
+      <li><span class="lbl-row">${icon('alertTriangle',15)} Low stock</span><b>${low}</b></li>
+    </ul>
+  </div>
+  <button class="btn btn-cta" onclick="nav('home','addProduct')">${icon('plus',15)} Add a new product</button>`;
+}
+function productList(){
+  const items=products.map(p=>`
+    <div class="product-tile" onclick="nav('home','detail','${p.id}')">
+      ${thumb(p,'p-thumb')}
+      <div class="p-body"><b>${p.name}</b><span class="sku">SKU: ${p.sku||p.id}</span>
+        <div class="p-meta"><span style="font-weight:700;font-size:12.5px">₹${p.price}</span>${badge(p.status)}</div>
+      </div>
+      <button class="dots-btn" onclick="event.stopPropagation();nav('home','detail','${p.id}')">${icon('dots',17)}</button>
+    </div>`).join('');
+  return `${screenHeader('My products')}
+  <div class="list-toolbar"><div class="search-box">${icon('search',15)}<input placeholder="Search products…"></div><button class="chip-btn">${icon('filter',15)}</button></div>
+  <div class="filter-tabs">
+    <div class="ftab active">All (${products.length})</div><div class="ftab">Live (${products.filter(p=>p.status==='Live').length})</div>
+    <div class="ftab">Pending (${products.filter(p=>p.status==='Pending').length})</div><div class="ftab">Out of stock (${products.filter(p=>p.status==='Out of Stock').length})</div>
+  </div>
+  ${items}
+  <button class="btn btn-cta" onclick="nav('home','addProduct')" style="margin-top:6px">${icon('plus',15)} Add product</button>`;
+}
+function productDetail(id){
+  const p=findProduct(id)||products[0];
+  return `${screenHeader(p.name,'SKU: '+(p.sku||p.id))}
+  <div class="detail-block" style="text-align:center">
+    <div style="width:68px;height:68px;border-radius:16px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;margin:0 auto 9px">${icon(p.ic||'box',28)}</div>
+    ${badge(p.status)}
+    <div style="font-family:var(--font-d);font-size:18px;font-weight:700;margin-top:9px">₹${p.price} <span style="font-size:12px;color:var(--muted-2);text-decoration:line-through;font-weight:500">₹${p.mrp||''}</span></div>
+    <div style="font-size:11.5px;color:var(--muted)">Stock: ${p.stock} units</div>
+  </div>
+  <ul class="menu-list">
+    <li onclick="nav('home','addProduct','${p.id}')"><div class="menu-ic">${icon('edit',16)}</div><div><b>Edit product</b><span>Details, pricing, images</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    <li onclick="nav('home','videos','${p.id}')"><div class="menu-ic">${icon('video',16)}</div><div><b>Videos</b><span>Add or manage clips</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    <li onclick="nav('home','stock','${p.id}')"><div class="menu-ic">${icon('barchart',16)}</div><div><b>Manage stock</b><span>Current: ${p.stock}</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    <li onclick="toast('Product duplicated')"><div class="menu-ic">${icon('copy',16)}</div><div><b>Duplicate</b><span>Create a copy</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    <li onclick="toast('Share link copied')"><div class="menu-ic">${icon('share',16)}</div><div><b>Share</b><span>Get a shareable link</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    <li onclick="openModal('deleteProduct','${p.id}')"><div class="menu-ic" style="background:var(--coral-light);color:var(--coral)">${icon('trash',16)}</div><div><b style="color:var(--coral)">Delete</b><span>Remove from store</span></div></li>
+  </ul>`;
+}
+function addProductForm(editId){
+  const p=editId?findProduct(editId):null;
+  const cat=p?p.category:'mobiles';
+  return `${screenHeader(p?'Edit product':'Add product')}
+  <div class="detail-block">
+    <label class="field-label">Product name *</label>
+    <input class="text-field" id="prodName" value="${p?p.name:''}" placeholder="e.g. Nike Air Max 270">
+    <label class="field-label">SKU</label>
+    <div style="display:flex;gap:8px">
+      <input class="text-field" id="prodSKU" style="margin-bottom:0" value="${p?p.sku||'':''}" placeholder="e.g. NIKE-AM270-9" oninput="this.value=this.value.toUpperCase()">
+      <button type="button" style="flex-shrink:0;background:var(--indigo-light);color:var(--indigo-dark);font-size:11.5px;font-weight:800;padding:0 13px;border-radius:9px" onclick="autoGenerateSKU()">${icon('refresh',13)} Auto</button>
+    </div>
+    <div class="field-hint">Your internal stock code — optional but recommended</div>
+    <label class="field-label">Category</label>
+    <select class="select-field" id="prodCategory" onchange="toggleSizeOptions()">${CATEGORY_OPTIONS.map(c=>`<option value="${c.v}" ${c.v===cat?'selected':''}>${c.label}</option>`).join('')}</select>
+    <div id="sizeGroupWrap" style="display:none;margin-bottom:13px">
+      <label class="field-label">Available sizes</label>
+      <div id="sizeOptionsRow" style="display:flex;flex-wrap:wrap;gap:8px"></div>
+    </div>
+    <label class="field-label">Key features (one per line)</label>
+    <textarea class="text-field" id="prodFeatures" placeholder="100% Cotton&#10;Machine Washable" style="height:74px">${p&&p.features?p.features.join('\\n'):''}</textarea>
+    <label class="field-label">Description</label>
+    <textarea class="text-field" id="prodDesc">${p?p.desc||'':''}</textarea>
+    <label class="field-label">Product images (up to 5) — <span id="imgCountLabel" style="color:var(--indigo)">0/5</span></label>
+    <div class="photo-row" id="imagePreview"></div>
+    <input type="file" class="text-field" id="prodImages" accept="image/*" multiple onchange="previewImages(event)">
+    <label class="field-label">Stock quantity *</label>
+    <input type="number" class="text-field" id="prodStock" value="${p?p.stock:10}">
+    <div class="field-row">
+      <div class="field-col"><label class="field-label">MRP (₹) *</label><input type="number" class="text-field" id="prodMRP" value="${p?p.mrp||'':''}" oninput="updateProductCalc()"></div>
+      <div class="field-col"><label class="field-label">Selling price (₹) *</label><input type="number" class="text-field" id="prodPrice" value="${p?p.price||'':''}" oninput="updateProductCalc()"></div>
+    </div>
+    <label class="field-label">Affiliate commission (%)</label>
+    <input type="number" class="text-field" id="prodAffiliateCommission" value="${p&&p.affiliateCommission!=null?p.affiliateCommission:5}" oninput="updateProductCalc()">
+    <label class="field-label">Buyer coin reward</label>
+    <input type="number" class="text-field" id="prodCoinReward" value="${p&&p.buyerCoinReward!=null?p.buyerCoinReward:50}" oninput="updateProductCalc()">
+    <label class="field-label">Weight (grams)</label>
+    <input type="number" class="text-field" id="prodWeight" value="${p&&p.weight?p.weight:''}">
+    <div class="platform-fee-box"><span class="lbl">${icon('scale',14)} Platform fee</span><span class="val">Fixed 10% ${icon('shield',12)}</span></div>
+    <div class="calc-box" id="calcBox"><div class="calc-title">${icon('barchart',13)} Earnings breakdown</div><div style="font-size:11.5px;color:var(--muted)">Enter a selling price to see the calculation</div></div>
+    <button class="btn btn-cta" onclick="submitProduct('${p?p.id:''}')">${icon('checkCircle',15)} ${p?'Save changes':'Submit for approval'}</button>
+  </div>`;
+}
+function toggleSizeOptions(){const cat=document.getElementById('prodCategory')?.value;const wrap=document.getElementById('sizeGroupWrap');const row=document.getElementById('sizeOptionsRow');if(!wrap||!row)return;const sizes=SIZE_SETS[cat];if(!sizes){wrap.style.display='none';row.innerHTML='';return;}wrap.style.display='block';row.innerHTML=sizes.map(s=>`<label style="display:flex;align-items:center;gap:6px;background:var(--cloud);border:1.5px solid var(--border);border-radius:9px;padding:7px 12px;font-size:12px;font-weight:700"><input type="checkbox" value="${s}" class="prodSizeChk">${s}</label>`).join('');}
+function autoGenerateSKU(){const name=(document.getElementById('prodName')?.value||'PROD').trim();const cat=(document.getElementById('prodCategory')?.value||'GEN').toUpperCase();const namePart=name.replace(/[^a-zA-Z0-9]/g,'').slice(0,6).toUpperCase()||'ITEM';const rand=Math.floor(1000+Math.random()*9000);const skuInput=document.getElementById('prodSKU');if(skuInput)skuInput.value=`${cat.slice(0,4)}-${namePart}-${rand}`;}
+window._prodImgs=[];
+function previewImages(e){const files=Array.from(e.target.files).slice(0,5);window._prodImgs=[];const wrap=document.getElementById('imagePreview');wrap.innerHTML='';files.forEach((file,idx)=>{if(!file.type.startsWith('image/'))return;const reader=new FileReader();reader.onload=ev=>{window._prodImgs[idx]=ev.target.result;renderImagePreviews();};reader.readAsDataURL(file);});document.getElementById('imgCountLabel').textContent=files.length+'/5';}
+function renderImagePreviews(){const wrap=document.getElementById('imagePreview');wrap.innerHTML=window._prodImgs.filter(Boolean).map((src,i)=>`<div class="photo-thumb"><img src="${src}"><div class="rm" onclick="removeProdImg(${i})">${icon('x',10)}</div></div>`).join('')+`<button type="button" class="photo-add" onclick="document.getElementById('prodImages').click()">${icon('plus',18)}</button>`;}
+function removeProdImg(i){window._prodImgs[i]=null;renderImagePreviews();}
+function updateProductCalc(){const price=parseFloat(document.getElementById('prodPrice')?.value)||0;const commissionPct=parseFloat(document.getElementById('prodAffiliateCommission')?.value)||0;const coins=parseFloat(document.getElementById('prodCoinReward')?.value)||0;const box=document.getElementById('calcBox');if(!box)return;if(price<=0){box.innerHTML=`<div class="calc-title">${icon('barchart',13)} Earnings breakdown</div><div style="font-size:11.5px;color:var(--muted)">Enter a selling price to see the calculation</div>`;return;}const platformFee=price*0.10;const affiliateAmt=price*(commissionPct/100);const coinValue=coins*COIN_TO_RUPEE;const sellerReceives=Math.max(0,price-platformFee-affiliateAmt-coinValue);box.innerHTML=`<div class="calc-title">${icon('barchart',13)} Earnings breakdown</div><div class="calc-row"><span>Selling price</span><span style="font-weight:700">₹${price.toFixed(0)}</span></div><div class="calc-row deduct"><span>Platform fee (10%)</span><span>−₹${platformFee.toFixed(0)}</span></div><div class="calc-row deduct"><span>Affiliate commission (${commissionPct}%)</span><span>−₹${affiliateAmt.toFixed(0)}</span></div><div class="calc-row deduct"><span>Buyer reward (${coins} coins)</span><span>−₹${coinValue.toFixed(0)}</span></div><div class="calc-row final"><span>You receive</span><span>₹${sellerReceives.toFixed(0)}</span></div>`;}
+function submitProduct(editId){
+  const name=(document.getElementById('prodName')?.value||'').trim();
+  const mrp=parseFloat(document.getElementById('prodMRP')?.value||0);
+  const price=parseFloat(document.getElementById('prodPrice')?.value||0);
+  if(!name){toast('Enter a product name');return;}
+  if(!mrp||mrp<=0){toast('Enter a valid MRP');return;}
+  if(!price||price<=0){toast('Enter a valid selling price');return;}
+  if(price>mrp){toast('Selling price cannot exceed MRP');return;}
+  const discount=Math.round(((mrp-price)/mrp)*100);
+  const stock=parseInt(document.getElementById('prodStock')?.value)||0;
+  if(editId){
+    const p=findProduct(editId);
+    Object.assign(p,{name,mrp,price,discount,stock,status:stock<=0?'Out of Stock':(stock<10?'Low Stock':p.status)});
+    toast('Product updated'); nav('home','detail',editId);
+  } else {
+    const id='sp_'+Date.now();
+    products.unshift({id,sku:'',name,category:document.getElementById('prodCategory')?.value||'mobiles',price,mrp,discount,stock,status:'Pending',ic:'box'});
+    toast('Product submitted for approval'); nav('home','list');
+  }
+  window._prodImgs=[];
+}
+function approvalList(){
+  const pend=products.filter(p=>p.status==='Pending');
+  const rows=pend.map(p=>`<div class="row-card" onclick="nav('home','approvalDetail','${p.id}')">${thumb(p)}<div class="row-body"><div class="row-top"><span class="row-id">${p.name}</span>${badge('Pending')}</div><div class="row-mid">₹${p.price}</div></div></div>`).join('')||`<div class="empty-state"><div class="ic">${icon('inbox',24)}</div><h3>No products pending</h3><p>New submissions appear here for review.</p></div>`;
+  return `${screenHeader('Approval status')}${rows}`;
+}
+function approvalDetail(id){
+  const p=findProduct(id)||products.find(x=>x.status==='Pending')||products[0];
+  return `${screenHeader('Approval details')}
+  <div class="detail-block" style="text-align:center">${thumb(p,'p-thumb')}<b style="display:block;margin-top:8px">${p.name}</b><div style="font-size:12px;color:var(--muted)">₹${p.price}</div>${badge('Pending')}</div>
+  <div class="detail-block"><h4>Status</h4>
+    <ul class="timeline">
+      <li class="done"><div class="t-dot">${icon('check',10)}</div><div class="t-body"><b>Submitted</b><span>2 days ago</span></div></li>
+      <li class="current"><div class="t-dot"></div><div class="t-body"><b>Under review</b><span>Usually 24–48 hours</span></div></li>
+      <li><div class="t-dot"></div><div class="t-body" style="opacity:.5"><b>Approved</b></div></li>
+      <li><div class="t-dot"></div><div class="t-body" style="opacity:.5"><b>Live</b></div></li>
+    </ul>
+  </div>
+  <button class="btn btn-outline" onclick="nav('home','addProduct','${p.id}')">${icon('edit',14)} Edit product</button>`;
+}
+function stockManage(id){
+  const p=findProduct(id)||products[0];
+  if(p.stock===0){
+    return `${screenHeader('My products')}
+    <div class="card stock-alert-card warn"><div class="ic">${icon('package',24)}</div><h3>Out of stock</h3><p>${p.name} is currently out of stock. Update stock to make it live again.</p>
+    <button class="btn btn-cta" style="width:auto;padding:11px 22px" onclick="p.stock=20;p.status='Live';toast('Stock updated to 20 units');nav('home','stock','${p.id}',{replace:true})">Update stock</button></div>`;
+  }
+  return `${screenHeader('Manage stock','SKU: '+(p.sku||p.id))}
+  <div class="detail-block" style="text-align:center">${thumb(p,'p-thumb')}<b style="display:block;margin-top:8px">${p.name}</b><div style="font-size:12px;color:var(--muted)">Stock: ${p.stock}</div>${badge(p.status)}</div>
+  <div class="detail-block">
+    <label class="field-label">Update stock</label><input class="text-field" id="stockInput" value="${p.stock}">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><label class="field-label" style="margin:0">Low stock alert</label><button class="toggle on"></button></div>
+    <label class="field-label">Alert when stock is below</label><input class="text-field" value="10">
+  </div>
+  <button class="btn btn-cta" onclick="const v=parseInt(document.getElementById('stockInput').value)||0;p.stock=v;p.status=v<=0?'Out of Stock':(v<10?'Low Stock':'Live');toast('Stock changes saved');nav('home','stock','${p.id}',{replace:true})">Save changes</button>`;
+}
+function manageVideos(id){
+  const p=findProduct(id)||products[0];
+  return `${screenHeader('Manage videos',p.name)}
+  <div class="filter-tabs"><div class="ftab active">All (2)</div><div class="ftab">Active (1)</div><div class="ftab">Inactive (1)</div></div>
+  <div class="row-card"><div class="row-thumb">${icon('play',18)}</div><div class="row-body"><div class="row-top"><span class="row-id">${p.name} – How it works</span>${badge('Live')}</div><div class="row-mid">0:15 · 1.2K views</div></div></div>
+  <div class="row-card"><div class="row-thumb">${icon('play',18)}</div><div class="row-body"><div class="row-top"><span class="row-id">Cooling test</span><span class="badge pending">Inactive</span></div><div class="row-mid">0:20 · 886 views</div></div></div>
+  <button class="btn btn-cta" onclick="nav('home','uploadVideo','${p.id}')">${icon('plus',15)} Upload new video</button>
+  <p style="font-size:10.5px;color:var(--muted-2);text-align:center;margin-top:10px">Recommended: 9:16, max 30 sec</p>`;
+}
+function uploadVideo(id){
+  return `${screenHeader('Upload video')}
+  <div class="detail-block" style="text-align:center;padding:30px 16px;border:2px dashed var(--border)">
+    <div style="width:50px;height:50px;border-radius:14px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center;margin:0 auto 9px">${icon('upload',22)}</div>
+    <b>Tap to upload video</b><div style="font-size:11px;color:var(--muted);margin-top:4px">max 30 sec · 9:16 · MP4</div>
+  </div>
+  <label class="field-label">Video title *</label><input class="text-field" placeholder="e.g. Phone Cooler – How it works">
+  <label class="field-label">Short description</label><textarea class="text-field"></textarea>
+  <button class="btn btn-cta" onclick="toast('Video uploaded');nav('home','videos','${id}',{replace:true})">Upload video</button>`;
+}
+function earningsScreen(){
+  const available=sellerEarnings.filter(e=>e.status==='available').reduce((s,e)=>s+e.net_earning,0);
+  const pending=sellerEarnings.filter(e=>e.status==='pending').reduce((s,e)=>s+e.net_earning,0);
+  return `${screenHeader('Earnings')}
+  <div class="grid-2" style="margin-bottom:13px">
+    <div class="card stat-card"><div class="ic" style="background:var(--emerald-light);color:var(--emerald)">${icon('checkCircle',16)}</div><div class="num">₹${available.toFixed(0)}</div><div class="lbl">Available</div></div>
+    <div class="card stat-card"><div class="ic" style="background:var(--marigold-light);color:var(--marigold-dark)">${icon('clock',16)}</div><div class="num">₹${pending.toFixed(0)}</div><div class="lbl">Pending</div></div>
+  </div>
+  <div class="detail-block"><h4>Transaction history</h4>
+    ${sellerEarnings.map(t=>`<div class="kv-row"><span>${t.product_name}<br><span style="font-size:10px;color:var(--muted-2)">Order ${t.order_id}</span></span><b style="color:${t.status==='available'?'var(--emerald)':'var(--marigold-dark)'}">₹${t.net_earning}</b></div>`).join('')}
+  </div>
+  <button class="btn btn-cta" onclick="nav('home','withdraw')">${icon('wallet',15)} Withdraw funds</button>`;
+}
+function withdrawScreen(){
+  const available=sellerEarnings.filter(e=>e.status==='available').reduce((s,e)=>s+e.net_earning,0);
+  return `${screenHeader('Withdraw')}
+  <div class="avail-payout"><span>Available balance</span><div class="amt">₹${available.toFixed(0)}</div><button onclick="openModal('withdraw')">Withdraw →</button></div>
+  <div class="detail-block"><h4>Withdrawal history</h4>
+    ${withdrawalRequests.length?withdrawalRequests.map(w=>`<div class="kv-row"><span>₹${w.amount}</span><b>${badge(w.status==='completed'?'Completed':w.status==='rejected'?'Rejected':'Pending')}</b></div>`).join(''):`<p style="font-size:12px;color:var(--muted);text-align:center;padding:10px 0">No withdrawal requests yet</p>`}
+  </div>`;
+}
+
+/* ===================== ORDERS ===================== */
+function renderOrders(){
+  if(state.screen==='home') return ordersHome();
+  if(state.screen==='detail') return orderDetails(state.ctxId);
+  if(state.screen==='updateStatus') return updateOrderStatus(state.ctxId);
+  if(state.screen==='cancel') return cancelOrder(state.ctxId);
+  if(state.screen==='search') return searchOrders();
+  if(state.screen==='filter') return filterOrders();
+  return ordersHome();
+}
+function ordersHome(){
+  const rows=orders.map(o=>`<div class="row-card" onclick="nav('orders','detail','${o.id}')"><div class="row-thumb">${icon(o.ic,18)}</div><div class="row-body"><div class="row-top"><span class="row-id">#${o.id}</span><span class="row-time">${o.time}</span></div><div class="row-mid">${o.product} · Qty: ${o.qty}</div><div class="row-bottom"><span class="row-price">₹${o.price}</span>${badge(o.status)}</div></div></div>`).join('');
+  const needProcessing=orders.filter(o=>o.status==='New'||o.status==='Processing').length;
+  return `
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h2 style="margin:0;font-size:16px;font-family:var(--font-d)">Orders</h2><div style="font-size:11.5px;color:var(--muted)">${orders.length} orders · ₹8,450</div></div>
+  ${needProcessing?`<div class="action-banner"><div><b>Action required</b>${needProcessing} orders need processing.</div><button onclick="nav('orders','detail','${orders[0].id}')">Process</button></div>`:''}
+  <div class="list-toolbar"><div class="search-box" onclick="nav('orders','search')">${icon('search',15)}<input placeholder="Search order, product, customer" readonly></div><button class="chip-btn" onclick="nav('orders','filter')">${icon('filter',15)}</button></div>
+  <div class="filter-tabs"><div class="ftab active">All</div><div class="ftab">New</div><div class="ftab">Processing</div><div class="ftab">Shipped</div><div class="ftab">Delivered</div></div>
+  ${rows}`;
+}
+function orderDetails(id){
+  const o=findOrder(id)||orders[0];
+  return `${screenHeader('Order details','#'+o.id+' · '+o.time)}
+  ${badge(o.status)} ${badge(o.pay)}
+  <div class="detail-block" style="margin-top:11px;display:flex;gap:11px;align-items:center">
+    <div class="row-thumb">${icon(o.ic,18)}</div><div style="flex:1"><b style="display:block;font-size:12.5px">${o.product}</b><span style="font-size:11px;color:var(--muted)">Qty: ${o.qty} · SKU: ${o.sku}</span></div><b>₹${o.price}</b>
+  </div>
+  <div class="detail-block"><h4>Customer</h4>
+    <div class="kv-row"><span>Name</span><b>${o.customer}</b></div><div class="kv-row"><span>Phone</span><b>${o.phone}</b></div><div class="kv-row"><span>Address</span><b style="text-align:right;max-width:60%">${o.address}</b></div>
+  </div>
+  <div class="detail-block"><h4>Pricing details</h4>
+    <div class="kv-row"><span>Product price</span><b>₹${o.price}</b></div><div class="kv-row"><span>Delivery fee</span><b>₹${o.deliveryFee}</b></div><div class="kv-row"><span>Discount</span><b>₹${o.discount}</b></div><div class="kv-row"><span>Platform fee</span><b>₹${o.platformFee}</b></div><div class="kv-row total"><span>Your earning</span><b>₹${o.earning}</b></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="nav('orders','cancel','${o.id}')">Cancel order</button><button class="btn btn-primary" onclick="nav('orders','updateStatus','${o.id}')">Update status</button></div>`;
+}
+function updateOrderStatus(id){
+  const o=findOrder(id)||orders[0];
+  const steps=['Confirm order','Mark as packed','Mark as shipped','Out for delivery','Mark as delivered'];
+  const doneIdx={'New':-1,'Processing':0,'Shipped':2,'Delivered':4}[o.status]??0;
+  const descs=['Mark as confirmed','Order packed and ready','Order shipped to customer','Order is out for delivery','Order delivered successfully'];
+  return `${screenHeader('Update order status','#'+o.id)}
+  <div class="detail-block">
+    ${steps.map((s,i)=>`<div class="status-step ${i<=doneIdx?'done':''}"><div class="step-check">${i<=doneIdx?icon('check',11):i+1}</div><div><b>${s}</b><span>${descs[i]}</span>${i===doneIdx+1?`<br><button onclick="o.status='${['New','Processing','Shipped','Shipped','Delivered'][i]}';toast('Status updated');nav('orders','detail','${o.id}',{replace:true})">Mark as ${s.replace('Mark as ','').replace('Confirm order','Confirmed')}</button>`:''}</div></div>`).join('')}
+  </div>
+  <button class="btn btn-cta" onclick="toast('Order status updated');nav('orders','detail','${o.id}',{replace:true})">Update order status</button>`;
+}
+function cancelOrder(id){
+  const o=findOrder(id)||orders[0];
+  return `${screenHeader('Cancel order','#'+o.id)}
+  <div class="detail-block" style="display:flex;gap:11px;align-items:center"><div class="row-thumb">${icon(o.ic,18)}</div><div style="flex:1"><b style="display:block;font-size:12.5px">${o.product}</b><span style="font-size:11px;color:var(--muted)">Qty: ${o.qty}</span></div><b>₹${o.price}</b></div>
+  <div class="action-banner" style="background:var(--coral-light);border-color:#F3C7C8"><div><b style="color:var(--coral)">${icon('alertTriangle',13)} Cancel this order?</b>This action cannot be undone.</div></div>
+  <label class="field-label">Select reason</label>
+  <select class="select-field"><option>Select a reason</option><option>Customer requested cancellation</option><option>Product unavailable</option><option>Address issue</option><option>Other</option></select>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goBack()">Keep order</button><button class="btn btn-danger" onclick="openModal('cancelOrder','${o.id}')">Cancel order</button></div>`;
+}
+function searchOrders(){
+  return `${screenHeader('Search orders')}
+  <div class="search-box" style="margin-bottom:15px">${icon('search',15)}<input autofocus placeholder="Search order, product, customer"></div>
+  <h4 style="font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:8px;font-weight:800">Recent orders</h4>
+  ${orders.map(o=>`<div class="row-card" onclick="nav('orders','detail','${o.id}')"><div class="row-thumb">${icon(o.ic,18)}</div><div class="row-body"><div class="row-top"><span class="row-id">#${o.id}</span>${badge(o.status)}</div><div class="row-mid">${o.product} · ${o.customer}</div></div></div>`).join('')}`;
+}
+function filterOrders(){
+  return `${screenHeader('Filter orders')}
+  <div class="detail-block"><h4>Status</h4>
+    <div style="display:flex;flex-direction:column;gap:4px">
+    ${['All','New','Processing','Shipped','Delivered','Cancelled'].map((s,i)=>`<label style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px"><input type="radio" name="fst" ${i===0?'checked':''}>${s}</label>`).join('')}
+    </div>
+  </div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="goBack()">Reset</button><button class="btn btn-cta" onclick="toast('Filters applied');goBack()">Apply filters</button></div>`;
+}
+
+/* ===================== RETURNS ===================== */
+function renderReturns(){
+  if(state.screen==='home') return returnsHome();
+  if(state.screen==='detail') return returnDetails(state.ctxId);
+  if(state.screen==='approve') return approveReject(state.ctxId);
+  if(state.screen==='pickup') return pickupStatus(state.ctxId);
+  if(state.screen==='inspection') return productInspection(state.ctxId);
+  if(state.screen==='refund') return refundStatus(state.ctxId);
+  return returnsHome();
+}
+function returnsHome(){
+  const rows=returns.map(r=>`<div class="row-card" onclick="nav('returns','detail','${r.id}')"><div class="row-thumb">${icon(r.ic,18)}</div><div class="row-body"><div class="row-top"><span class="row-id">#${r.id}</span><span class="row-time">${r.time||''}</span></div><div class="row-mid">${r.product} · Qty: ${r.qty}</div><div class="row-bottom"><span class="row-price">₹${r.price}</span>${badge(r.status)}</div></div></div>`).join('');
+  const needAction=returns.filter(r=>r.status==='Requested').length;
+  return `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h2 style="margin:0;font-size:16px;font-family:var(--font-d)">Returns</h2><div style="font-size:11.5px;color:var(--muted)">${returns.length} active · ₹2,340</div></div>
+  ${needAction?`<div class="action-banner"><div><b>Action required</b>${needAction} return requests need action.</div><button onclick="nav('returns','detail','${returns[0].id}')">Review</button></div>`:''}
+  <div class="filter-tabs"><div class="ftab active">All</div><div class="ftab">Requested</div><div class="ftab">Approved</div><div class="ftab">Picked up</div><div class="ftab">Refunded</div></div>
+  ${rows}`;
+}
+function returnDetails(id){
+  const r=findReturn(id)||returns[0];
+  return `${screenHeader('Return details','#'+r.id+' · '+(r.time||''))}
+  ${badge(r.status)}
+  <div class="detail-block" style="margin-top:11px;display:flex;gap:11px;align-items:center"><div class="row-thumb">${icon(r.ic,18)}</div><div style="flex:1"><b style="display:block;font-size:12.5px">${r.product}</b><span style="font-size:11px;color:var(--muted)">Qty: ${r.qty}</span></div><b>₹${r.price}</b></div>
+  <div class="detail-block"><h4>Refund amount</h4><div class="kv-row"><span>Product price</span><b>₹${r.price}</b></div><div class="kv-row total"><span>Refund amount</span><b>₹${r.refundAmt||r.price}</b></div></div>
+  <div class="detail-block"><h4>Reason</h4><p style="margin:0;font-size:12.5px">${r.reason||'—'}</p></div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="nav('returns','pickup','${r.id}')">Track pickup</button><button class="btn btn-primary" onclick="nav('returns','approve','${r.id}')">Approve / reject</button></div>`;
+}
+function approveReject(id){
+  const r=findReturn(id)||returns[0];
+  return `${screenHeader('Approve / reject','#'+r.id)}
+  ${badge(r.status)}
+  <div class="detail-block" style="margin-top:11px"><div class="kv-row"><span>Product</span><b>${r.product}</b></div><div class="kv-row"><span>Reason</span><b>${r.reason||'—'}</b></div><div class="kv-row"><span>Refund amount</span><b>₹${r.refundAmt||r.price}</b></div></div>
+  <div class="btn-row"><button class="btn btn-outline" onclick="openModal('rejectReturn','${r.id}')">Reject</button><button class="btn btn-success" onclick="openModal('approveReturn','${r.id}')">Approve</button></div>`;
+}
+function pickupStatus(id){
+  const r=findReturn(id)||returns[0];
+  return `${screenHeader('Return tracking','#'+r.id)}
+  <div class="detail-block"><h4>Pickup details</h4><div class="kv-row"><span>Pickup scheduled</span><b>Tomorrow, 10:00 AM</b></div><div class="kv-row"><span>Courier partner</span><b>APY Express</b></div></div>
+  <div class="detail-block"><h4>Timeline</h4>
+    <ul class="timeline">
+      <li class="done"><div class="t-dot">${icon('check',10)}</div><div class="t-body"><b>Return requested</b></div></li>
+      <li class="done"><div class="t-dot">${icon('check',10)}</div><div class="t-body"><b>Approved by seller</b></div></li>
+      <li class="current"><div class="t-dot"></div><div class="t-body"><b>Pickup scheduled</b></div></li>
+      <li><div class="t-dot"></div><div class="t-body" style="opacity:.5"><b>Refund processed</b></div></li>
+    </ul>
+  </div>
+  <button class="btn btn-cta" onclick="nav('returns','inspection','${r.id}')">View tracking</button>`;
+}
+function productInspection(id){
+  const r=findReturn(id)||returns[0];
+  return `${screenHeader('Product inspection','#'+r.id)}
+  <div class="detail-block"><h4>Inspect product condition</h4>
+    <div style="display:flex;flex-direction:column;gap:2px">
+      ${['Good','Damaged','Used'].map((s,i)=>`<label style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:12.5px"><input type="radio" name="cond" ${i===0?'checked':''}>${s}</label>`).join('')}
+    </div>
+  </div>
+  <button class="btn btn-cta" onclick="toast('Inspection submitted');nav('returns','refund','${r.id}')">Submit inspection</button>`;
+}
+function refundStatus(id){
+  const r=findReturn(id)||returns[0];
+  return `${screenHeader('Refund status','#'+r.id)}
+  <div class="card" style="display:flex;flex-direction:column;align-items:center;text-align:center;padding:22px 16px">
+    <div style="width:52px;height:52px;border-radius:50%;background:var(--emerald);color:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px">${icon('check',22)}</div>
+    <h3 style="margin:0 0 6px;font-family:var(--font-d);font-size:15px">Refund completed</h3><p style="margin:0;font-size:12px;color:var(--muted)">The refund has been successfully processed.</p>
+  </div>
+  <div class="detail-block"><div class="kv-row"><span>Refund amount</span><b>₹${r.refundAmt||r.price}</b></div><div class="kv-row"><span>Refunded to</span><b>${r.customer}</b></div></div>`;
+}
+
+/* ===================== PROFILE ===================== */
+function renderProfile(){
+  if(state.screen==='home') return profileHome();
+  if(state.screen==='edit') return editStore();
+  if(state.screen==='preview') return storePreview();
+  if(state.screen==='bank') return bankPayouts();
+  if(state.screen==='kyc') return kycVerification();
+  if(state.screen==='shipping') return shippingSettings();
+  return profileHome();
+}
+function profileHome(){
+  const name=window.SELLER_NAME||'Seller';
+  const initials=name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  return `
+  <div class="card profile-head">
+    <div class="store-avatar">${initials}</div><h3>${name}</h3>
+    <span class="verified-tag">${icon('checkCircle',13)} Verified seller · ${icon('star',13)} 4.8</span>
+    <div class="profile-stats"><div><b>${products.length*4+6}</b><span>Products</span></div><div><b>182</b><span>Orders</span></div><div><b>₹48.9K</b><span>Sales</span></div></div>
+  </div>
+  <div class="detail-block" style="background:var(--indigo-light);border-color:#DCDEFA;display:flex;gap:10px;align-items:flex-start">
+    <div style="color:var(--indigo);flex-shrink:0;margin-top:1px">${icon('shield',16)}</div>
+    <div style="font-size:11.5px;color:var(--indigo-dark);line-height:1.5"><b>This dashboard is private to you.</b> Only your signed-in, verified account can view these orders, earnings and documents.</div>
+  </div>
+  <div class="detail-block">
+    <ul class="menu-list">
+      <li onclick="nav('profile','edit')"><div class="menu-ic">${icon('store',16)}</div><div><b>Edit store</b><span>Name, logo, description</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+      <li onclick="nav('profile','preview')"><div class="menu-ic">${icon('eye',16)}</div><div><b>Store preview</b><span>See how buyers view your store</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+      <li onclick="nav('profile','bank')"><div class="menu-ic">${icon('bank',16)}</div><div><b>Bank & payouts</b><span>₹12,450 available</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+      <li onclick="nav('home','earnings')"><div class="menu-ic">${icon('wallet',16)}</div><div><b>Earnings</b><span>Track your income</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+      <li onclick="nav('profile','kyc')"><div class="menu-ic">${icon('shield',16)}</div><div><b>KYC & verification</b><span>All documents verified</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+      <li onclick="nav('profile','shipping')"><div class="menu-ic">${icon('truck',16)}</div><div><b>Shipping settings</b><span>Pickup & return address</span></div><span class="chevron">${icon('chevronRight',15)}</span></li>
+    </ul>
+  </div>
+  <button class="btn btn-outline" onclick="openModal('logout')">${icon('logout',15)} Log out</button>`;
+}
+function editStore(){
+  return `${screenHeader('Edit store')}
+  <div class="detail-block" style="text-align:center"><div class="store-avatar" style="margin:0 auto 9px">${(window.SELLER_NAME||'S').charAt(0)}</div><button class="btn btn-outline" style="width:auto;padding:9px 18px;font-size:11.5px">Change logo</button></div>
+  <label class="field-label">Store name</label><input class="text-field" value="${window.SELLER_NAME||''}">
+  <label class="field-label">Store description</label><textarea class="text-field">We provide best quality gadgets and accessories.</textarea>
+  <button class="btn btn-cta" onclick="toast('Store details saved');goBack()">Save changes</button>`;
+}
+function storePreview(){
+  const tiles=products.slice(0,4).map(p=>`<div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:8px"><div style="width:100%;height:60px;border-radius:8px;background:var(--indigo-light);color:var(--indigo);display:flex;align-items:center;justify-content:center">${icon(p.ic,20)}</div><div style="font-size:11px;margin-top:6px">${p.name}</div><b style="font-size:12px">₹${p.price}</b></div>`).join('');
+  return `${screenHeader('Store preview')}
+  <div class="detail-block" style="text-align:center"><div style="height:70px;background:linear-gradient(135deg,var(--indigo),#6B5CE0);border-radius:12px;margin-bottom:-32px"></div><div class="store-avatar" style="border:3px solid #fff;margin:0 auto 8px">${(window.SELLER_NAME||'S').charAt(0)}</div><b style="font-size:13px">${window.SELLER_NAME||'Seller'}</b><div style="font-size:11px;color:var(--muted);margin-top:2px">4.8 (182 orders)</div></div>
+  <div class="grid-2">${tiles}</div>`;
+}
+function bankPayouts(){
+  return `${screenHeader('Bank & payouts')}
+  <div class="avail-payout"><span>Available for payout</span><div class="amt">₹12,450</div><button onclick="nav('home','withdraw')">View wallet →</button></div>
+  <div class="detail-block"><h4>Payout account</h4>
+    <label class="field-label">Bank name</label><input class="text-field" id="bankName" value="${sellerProfile.bankName}">
+    <label class="field-label">Account number</label><input class="text-field" id="accountNumber" value="${sellerProfile.accountNumber}">
+    <label class="field-label">IFSC code</label><input class="text-field" id="ifsc" value="${sellerProfile.ifsc}">
+    <label class="field-label">UPI ID</label><input class="text-field" id="upi" value="${sellerProfile.upi}" placeholder="yourname@upi" style="margin-bottom:0">
+  </div>
+  <button class="btn btn-cta" onclick="sellerProfile={bankName:document.getElementById('bankName').value,accountNumber:document.getElementById('accountNumber').value,ifsc:document.getElementById('ifsc').value,upi:document.getElementById('upi').value};toast('Bank details saved')">${icon('check',14)} Save details</button>`;
+}
+function kycVerification(){
+  return `${screenHeader('KYC & verification')}
+  <div class="detail-block" style="text-align:center"><span class="badge approved" style="font-size:11px;padding:6px 13px">${icon('check',11)} Verified</span><p style="margin:8px 0 0;font-size:11.5px;color:var(--muted)">Your seller account is verified.</p></div>
+  <div class="detail-block">
+    <div class="doc-row"><span>Identity verification</span><span class="ok">${icon('check',13)} Verified</span></div>
+    <div class="doc-row"><span>Address verification</span><span class="ok">${icon('check',13)} Verified</span></div>
+    <div class="doc-row"><span>Business verification</span><span class="ok">${icon('check',13)} Verified</span></div>
+    <div class="doc-row"><span>Bank verification</span><span class="ok">${icon('check',13)} Verified</span></div>
+  </div>`;
+}
+function shippingSettings(){
+  return `${screenHeader('Shipping settings')}
+  <div class="detail-block"><h4>Pickup address</h4><p style="margin:0 0 10px;font-size:12.5px">Excelclub<br>123, MG Road<br>Prayagraj, Uttar Pradesh 211001</p><button class="btn btn-outline" style="width:auto;padding:8px 15px;font-size:11.5px">Edit address</button></div>
+  <div class="detail-block"><h4>Shipping preferences</h4><div class="kv-row"><span>Standard delivery</span><b>3–5 days</b></div><div class="kv-row"><span>Returns</span><b>7-day return</b></div></div>`;
+}
+
+/* ===================== MODALS ===================== */
+function openModal(type,ctxId){
+  const overlay=document.getElementById('modalOverlay');const box=document.getElementById('modalBox');let html='';box.className='modal-box';
+  if(type==='logout'){box.className='modal-box center';html=`<div class="ic danger">${icon('logout',22)}</div><h3>Log out of Apykart?</h3><p>You can log back in anytime.</p><div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="closeModal();window._signOut&&window._signOut();toast('Logged out')">Log out</button></div>`;}
+  if(type==='cancelOrder'){const o=findOrder(ctxId);box.className='modal-box center';html=`<div class="ic danger">${icon('alertTriangle',22)}</div><h3>Cancel order #${o.id}?</h3><p>This action cannot be undone.</p><div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Keep order</button><button class="btn btn-danger" onclick="o.status='Cancelled';closeModal();toast('Order cancelled');nav('orders','home',null,{replace:true})">Confirm</button></div>`;}
+  if(type==='approveReturn'){box.className='modal-box center';html=`<div class="ic success">${icon('checkCircle',22)}</div><h3>Approve this return?</h3><p>The customer will be notified and pickup will be scheduled.</p><div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-success" onclick="closeModal();toast('Return approved');nav('returns','pickup','${ctxId}')">Approve</button></div>`;}
+  if(type==='rejectReturn'){box.className='modal-box center';html=`<div class="ic danger">${icon('xCircle',22)}</div><h3>Reject this return?</h3><p>The customer will be notified.</p><div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="closeModal();toast('Return rejected');nav('returns','home',null,{replace:true})">Reject</button></div>`;}
+  if(type==='deleteProduct'){box.className='modal-box center';html=`<div class="ic danger">${icon('trash',22)}</div><h3>Delete this product?</h3><p>This action cannot be undone.</p><div class="btn-row"><button class="btn btn-outline" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="products=products.filter(p=>p.id!=='${ctxId}');closeModal();toast('Product deleted');nav('home','list',null,{replace:true})">Delete</button></div>`;}
+  if(type==='withdraw'){const available=sellerEarnings.filter(e=>e.status==='available').reduce((s,e)=>s+e.net_earning,0);html=`<div class="ic">${icon('wallet',22)}</div><h3>Request withdrawal</h3><p>Available: ₹${available.toFixed(0)}</p><input type="number" id="withdrawAmt" class="text-field" placeholder="Enter amount"><button class="btn btn-cta" onclick="submitWithdraw(${available})">Submit request</button>`;}
+  box.innerHTML=html;overlay.classList.add('show');
+}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show');}
+document.getElementById('modalOverlay').addEventListener('click',e=>{if(e.target.id==='modalOverlay')closeModal();});
+function submitWithdraw(available){const amt=parseFloat(document.getElementById('withdrawAmt').value);if(!amt||amt<=0||amt>available){toast('Enter a valid amount');return;}withdrawalRequests.push({id:'wd_'+Date.now(),amount:amt,status:'pending'});closeModal();toast('Withdrawal request submitted');nav('home','withdraw',null,{replace:true});}
+
+/* ===================== TOAST ===================== */
+let toastTimer;
+function toast(msg){const t=document.getElementById('toast');document.getElementById('toastIcon').innerHTML=icon('checkCircle',16);document.getElementById('toastMsg').textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2400);}
+
+/* ===================== INIT (after seller is verified) ===================== */
+window.addEventListener('seller-ready', function(){
+  renderGreeting();
+  renderNav();
+  nav('home','dashboard',null,{replace:true});
+});
+// expose functions the inline onclick="" handlers need
+Object.assign(window,{nav,goBack,openModal,closeModal,toast,toggleSizeOptions,autoGenerateSKU,previewImages,removeProdImg,updateProductCalc,submitProduct,submitWithdraw});
+</script>
+</body>
+</html>
