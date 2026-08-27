@@ -356,6 +356,21 @@ a{text-decoration:none;color:inherit}
 .products-spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ─── SKELETON LOADER ─── */
+.skel{background:linear-gradient(90deg,#eef0f4 25%,#f7f8fa 37%,#eef0f4 63%);background-size:400% 100%;animation:skelShimmer 1.4s ease infinite;border-radius:10px}
+@keyframes skelShimmer{0%{background-position:100% 50%}100%{background-position:0 50%}}
+.skel-hero{height:160px;margin:4px 12px 0;border-radius:var(--radius-lg)}
+.skel-cat-row{display:flex;gap:10px;padding:14px 14px 2px;overflow:hidden}
+.skel-cat{width:54px;height:54px;border-radius:16px;flex-shrink:0}
+.skel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px 12px}
+.skel-card{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:#fff}
+.skel-card-img{height:180px}
+.skel-card-line{height:12px;margin:10px 9px}
+.skel-card-line.short{width:60%}
+.offline-bar{position:fixed;left:0;right:0;bottom:0;max-width:480px;margin:0 auto;background:#1a1a1a;color:#fff;padding:14px 16px;display:none;align-items:center;justify-content:space-between;font-size:14px;font-weight:600;z-index:9998}
+.offline-bar.show{display:flex}
+.offline-retry{color:#4da3ff;font-weight:800;cursor:pointer;background:none;border:none;font-size:14px}
+
 /* ─── SEARCH ─── */
 .search-header{padding:12px 12px 8px;background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
 .search-input-wrap{display:flex;align-items:center;background:var(--bg);border:1.5px solid var(--border);border-radius:11px;padding:0 12px;gap:8px;transition:border-color .2s,box-shadow .2s}
@@ -1312,6 +1327,10 @@ a{text-decoration:none;color:inherit}
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
+<div class="offline-bar" id="offlineBar">
+  <span>📡 Not connected</span>
+  <button class="offline-retry" onclick="location.reload()">Retry</button>
+</div>
 <input type="file" id="directCreatorFileInput" accept="video/*" style="display:none" onchange="handleDirectVideoSelect(this)">
 <div id="modalPortal"></div>
 <div id="welcomePopupPortal"></div>
@@ -1340,7 +1359,7 @@ a{text-decoration:none;color:inherit}
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-  getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged
+  getAuth, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
   getFirestore,
@@ -1369,7 +1388,7 @@ const storage  = getStorage(app);
 const provider = new GoogleAuthProvider();
 
 // ─── Expose to global scope ───
-window._fbAuth = { auth, provider, signInWithPopup, signOut, onAuthStateChanged };
+window._fbAuth = { auth, provider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged };
 window._db     = db;
 window._storage = storage;
 window._storageRef = storageRef;
@@ -1706,6 +1725,13 @@ function setupBannersListener() {
   }
 }
 setupBannersListener();
+
+// ✅ Redirect login result check
+getRedirectResult(auth).then(result => {
+  if (result && result.user) {
+    console.log('Redirect login success:', result.user.email);
+  }
+}).catch(err => console.warn('Redirect login error:', err.message));
 
 // ─── Dispatch event so non-module script knows Firebase is ready ───
 window._fbReady = true;
@@ -2430,7 +2456,17 @@ function goHeroSlide(n) {
   document.querySelectorAll('.hero-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
   _heroIdx = n;
 }
-
+function renderSkeletonGrid() {
+  return `
+    <div class="skel-grid">
+      ${Array(6).fill(0).map(()=>`
+        <div class="skel-card">
+          <div class="skel skel-card-img"></div>
+          <div class="skel skel-card-line"></div>
+          <div class="skel skel-card-line short"></div>
+        </div>`).join('')}
+    </div>`;
+}
 function renderHome() {
   // Hero Carousel
   initHeroCarousel();
@@ -2450,7 +2486,7 @@ function renderHome() {
 
   const grid = document.getElementById('homeGrid');
   if (!PRODUCTS.length) {
-    grid.innerHTML = `<div class="products-loading"><div class="products-spinner"></div><div style="font-size:13px;color:var(--text3);font-weight:600;margin-top:8px">Loading products…</div></div>`;
+    grid.innerHTML = renderSkeletonGrid();
     return;
   }
   const approvedProds = PRODUCTS.filter(p => {
@@ -4606,15 +4642,25 @@ function closeWelcomePopup() {
   const portal = document.getElementById('welcomePopupPortal');
   if (portal) portal.innerHTML = '';
 }
-
-
 function signInWithGoogle() {
   if (!window._fbAuth) { showToast('Please wait, loading...', 'info'); return; }
-  const { signInWithPopup, auth, provider } = window._fbAuth;
+  const { signInWithPopup, signInWithRedirect, auth, provider } = window._fbAuth;
   signInWithPopup(auth, provider)
     .then(() => showToast('Welcome!', 'success'))
-    .catch(err => showToast('Login failed: ' + err.message, 'warn'));
+    .catch(err => {
+      console.error('Login error code:', err.code, err.message);
+      const fallbackCodes = ['auth/popup-blocked','auth/popup-closed-by-user','auth/operation-not-supported-in-this-environment','auth/cancelled-popup-request'];
+      if (fallbackCodes.includes(err.code)) {
+        showToast('Redirecting to login...', 'info');
+        signInWithRedirect(auth, provider);
+      } else if (err.code === 'auth/unauthorized-domain') {
+        showToast('This domain is not authorized. Contact support.', 'warn');
+      } else {
+        showToast('Login failed: ' + err.message, 'warn');
+      }
+    });
 }
+
 
 function logoutUser() {
   if (!window._fbAuth) return;
@@ -5784,6 +5830,19 @@ function init() {
   }
   checkDeepLink();
 }
+// ─── OFFLINE / ONLINE DETECTION ───
+function updateOfflineBar() {
+  const bar = document.getElementById('offlineBar');
+  if (!bar) return;
+  bar.classList.toggle('show', !navigator.onLine);
+}
+window.addEventListener('offline', updateOfflineBar);
+window.addEventListener('online', () => {
+  updateOfflineBar();
+  showToast('Back online ✅', 'success');
+  location.reload(); // fresh data reload jab net wapas aaye
+});
+updateOfflineBar(); // page load pe bhi check karo
 
 init();
 </script>
