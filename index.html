@@ -3736,6 +3736,8 @@ if (verSt === 'pending') {
       <div style="font-size:11px;color:#b45309;margin-top:2px">Admin will verify soon</div>
     </div>
   </div>`;
+  
+
 } else if (verSt === 'approved') {
   verBannerHTML = `<div onclick="window.location.href='seller-dashboard.html'" style="margin:10px 10px 0;background:#dcfce7;border:1.5px solid #86efac;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer">
     <div style="font-size:22px">✅</div>
@@ -3744,7 +3746,6 @@ if (verSt === 'pending') {
       <div style="font-size:11px;color:#16a34a;margin-top:2px">You can now list products!</div>
     </div>
   </div>`;
-}
 } else if (verSt === 'rejected') {
   verBannerHTML = `<div style="margin:10px 10px 0;background:#fee2e2;border:1.5px solid #fca5a5;border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px">
     <div style="font-size:22px">❌</div>
